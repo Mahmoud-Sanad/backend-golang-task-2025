@@ -8,10 +8,7 @@ Build a **Concurrent Order Processing System** for an e-commerce platform that c
 
 ### Core Technologies
 
-- **Language**: Go 1.21+
 - **Database**: PostgreSQL 15+
-- **ORM**: GORM v2
-- **Framework**: Gin (recommended) or Echo
 - **Concurrency**: Goroutines, Channels, Sync packages
 - **Testing**: Built-in testing + testify
 

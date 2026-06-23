@@ -1,0 +1,51 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../src/generated/standard_db"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum LogLevel {
+    INFO
+    WARN
+    ERROR
+    DEBUG
+}
+
+enum UserRole {
+    USER
+    ADMIN
+}
+
+model Account {
+    id        Int      @id @default(autoincrement())
+    email     String   @unique
+    password  String
+    name      String?
+    role      UserRole @default(USER)
+    status    String   @default("ACTIVE")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    otp       String?
+}
+
+model Notification {
+    id        Int      @id @default(autoincrement())
+    title     String
+    message   String
+    read      Boolean  @default(false)
+    meta      Json?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Log {
+    id        Int      @id @default(autoincrement())
+    level     LogLevel @default(INFO)
+    message   String
+    meta      Json?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}

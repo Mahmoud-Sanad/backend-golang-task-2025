@@ -1,0 +1,95 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../src/generated/payment_db"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum OrderStatus {
+    PENDING
+    DELIVERING
+    COMPLETED
+    CANCELLED
+}
+
+enum LogLevel {
+    INFO
+    WARN
+    ERROR
+    DEBUG
+}
+
+enum TransactionStatus {
+    REFUND
+    PAID
+    FAILED
+}
+
+model Product {
+    id          Int            @id @default(autoincrement())
+    name        String
+    description String?
+    price       Float
+    createdBy   Int
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    stocks      ProductStock[]
+    orderItems  OrderItem[]
+}
+
+model ProductStock {
+    id        Int      @id @default(autoincrement())
+    productId Int
+    quantity  Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    alertAt   Int      @default(0)
+    product   Product  @relation(fields: [productId], references: [id])
+}
+
+model Order {
+    id           Int           @id @default(autoincrement())
+    userId       Int
+    status       OrderStatus   @default(PENDING)
+    total        Float
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
+    orderItems   OrderItem[]
+    transactions Transaction[]
+}
+
+model OrderItem {
+    id        Int      @id @default(autoincrement())
+    orderId   Int
+    productId Int
+    quantity  Int
+    price     Float
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    order   Order   @relation(fields: [orderId], references: [id])
+    product Product @relation(fields: [productId], references: [id])
+}
+
+model Transaction {
+    id        Int               @id @default(autoincrement())
+    userId    Int
+    status    TransactionStatus
+    amount    Float
+    note      String?
+    orderId   Int?
+    order     Order?            @relation(fields: [orderId], references: [id])
+    createdAt DateTime          @default(now())
+    updatedAt DateTime          @updatedAt
+}
+
+model Log {
+    id        Int      @id @default(autoincrement())
+    level     LogLevel @default(INFO)
+    message   String
+    meta      Json?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
