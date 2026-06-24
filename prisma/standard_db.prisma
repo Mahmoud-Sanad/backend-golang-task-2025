@@ -20,7 +20,7 @@ enum UserRole {
 }
 
 model Account {
-    id        Int      @id @default(autoincrement())
+    id        String   @id 
     email     String   @unique
     password  String
     name      String?
@@ -28,11 +28,10 @@ model Account {
     status    String   @default("ACTIVE")
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    otp       String?
 }
 
 model Notification {
-    id        Int      @id @default(autoincrement())
+    id        String   @id 
     title     String
     message   String
     read      Boolean  @default(false)
@@ -42,7 +41,7 @@ model Notification {
 }
 
 model Log {
-    id        Int      @id @default(autoincrement())
+    id        String   @id 
     level     LogLevel @default(INFO)
     message   String
     meta      Json?

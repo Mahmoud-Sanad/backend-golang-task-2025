@@ -30,6 +30,37 @@ export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
 export type Log = $Result.DefaultSelection<Prisma.$LogPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const LogLevel: {
+  INFO: 'INFO',
+  WARN: 'WARN',
+  ERROR: 'ERROR',
+  DEBUG: 'DEBUG'
+};
+
+export type LogLevel = (typeof LogLevel)[keyof typeof LogLevel]
+
+
+export const UserRole: {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+}
+
+export type LogLevel = $Enums.LogLevel
+
+export const LogLevel: typeof $Enums.LogLevel
+
+export type UserRole = $Enums.UserRole
+
+export const UserRole: typeof $Enums.UserRole
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -1054,37 +1085,27 @@ export namespace Prisma {
 
   export type AggregateAccount = {
     _count: AccountCountAggregateOutputType | null
-    _avg: AccountAvgAggregateOutputType | null
-    _sum: AccountSumAggregateOutputType | null
     _min: AccountMinAggregateOutputType | null
     _max: AccountMaxAggregateOutputType | null
   }
 
-  export type AccountAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type AccountSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type AccountMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     email: string | null
     password: string | null
     name: string | null
-    role: string | null
+    role: $Enums.UserRole | null
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type AccountMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     email: string | null
     password: string | null
     name: string | null
-    role: string | null
+    role: $Enums.UserRole | null
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1102,14 +1123,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type AccountAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type AccountSumAggregateInputType = {
-    id?: true
-  }
 
   export type AccountMinAggregateInputType = {
     id?: true
@@ -1183,18 +1196,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: AccountAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: AccountSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: AccountMinAggregateInputType
@@ -1225,24 +1226,20 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AccountCountAggregateInputType | true
-    _avg?: AccountAvgAggregateInputType
-    _sum?: AccountSumAggregateInputType
     _min?: AccountMinAggregateInputType
     _max?: AccountMaxAggregateInputType
   }
 
   export type AccountGroupByOutputType = {
-    id: number
+    id: string
     email: string
     password: string
     name: string | null
-    role: string
+    role: $Enums.UserRole
     status: string
     createdAt: Date
     updatedAt: Date
     _count: AccountCountAggregateOutputType | null
-    _avg: AccountAvgAggregateOutputType | null
-    _sum: AccountSumAggregateOutputType | null
     _min: AccountMinAggregateOutputType | null
     _max: AccountMaxAggregateOutputType | null
   }
@@ -1311,11 +1308,11 @@ export namespace Prisma {
     name: "Account"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       email: string
       password: string
       name: string | null
-      role: string
+      role: $Enums.UserRole
       status: string
       createdAt: Date
       updatedAt: Date
@@ -1742,11 +1739,11 @@ export namespace Prisma {
    * Fields of the Account model
    */
   interface AccountFieldRefs {
-    readonly id: FieldRef<"Account", 'Int'>
+    readonly id: FieldRef<"Account", 'String'>
     readonly email: FieldRef<"Account", 'String'>
     readonly password: FieldRef<"Account", 'String'>
     readonly name: FieldRef<"Account", 'String'>
-    readonly role: FieldRef<"Account", 'String'>
+    readonly role: FieldRef<"Account", 'UserRole'>
     readonly status: FieldRef<"Account", 'String'>
     readonly createdAt: FieldRef<"Account", 'DateTime'>
     readonly updatedAt: FieldRef<"Account", 'DateTime'>
@@ -2127,22 +2124,12 @@ export namespace Prisma {
 
   export type AggregateNotification = {
     _count: NotificationCountAggregateOutputType | null
-    _avg: NotificationAvgAggregateOutputType | null
-    _sum: NotificationSumAggregateOutputType | null
     _min: NotificationMinAggregateOutputType | null
     _max: NotificationMaxAggregateOutputType | null
   }
 
-  export type NotificationAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type NotificationSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type NotificationMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     title: string | null
     message: string | null
     read: boolean | null
@@ -2151,7 +2138,7 @@ export namespace Prisma {
   }
 
   export type NotificationMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     title: string | null
     message: string | null
     read: boolean | null
@@ -2164,19 +2151,12 @@ export namespace Prisma {
     title: number
     message: number
     read: number
+    meta: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
-
-  export type NotificationAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type NotificationSumAggregateInputType = {
-    id?: true
-  }
 
   export type NotificationMinAggregateInputType = {
     id?: true
@@ -2201,6 +2181,7 @@ export namespace Prisma {
     title?: true
     message?: true
     read?: true
+    meta?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2244,18 +2225,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: NotificationAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: NotificationSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: NotificationMinAggregateInputType
@@ -2286,22 +2255,19 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: NotificationCountAggregateInputType | true
-    _avg?: NotificationAvgAggregateInputType
-    _sum?: NotificationSumAggregateInputType
     _min?: NotificationMinAggregateInputType
     _max?: NotificationMaxAggregateInputType
   }
 
   export type NotificationGroupByOutputType = {
-    id: number
+    id: string
     title: string
     message: string
     read: boolean
+    meta: JsonValue | null
     createdAt: Date
     updatedAt: Date
     _count: NotificationCountAggregateOutputType | null
-    _avg: NotificationAvgAggregateOutputType | null
-    _sum: NotificationSumAggregateOutputType | null
     _min: NotificationMinAggregateOutputType | null
     _max: NotificationMaxAggregateOutputType | null
   }
@@ -2325,6 +2291,7 @@ export namespace Prisma {
     title?: boolean
     message?: boolean
     read?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["notification"]>
@@ -2334,6 +2301,7 @@ export namespace Prisma {
     title?: boolean
     message?: boolean
     read?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["notification"]>
@@ -2343,6 +2311,7 @@ export namespace Prisma {
     title?: boolean
     message?: boolean
     read?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["notification"]>
@@ -2352,20 +2321,22 @@ export namespace Prisma {
     title?: boolean
     message?: boolean
     read?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "message" | "read" | "createdAt" | "updatedAt", ExtArgs["result"]["notification"]>
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "message" | "read" | "meta" | "createdAt" | "updatedAt", ExtArgs["result"]["notification"]>
 
   export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Notification"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       title: string
       message: string
       read: boolean
+      meta: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["notification"]>
@@ -2791,10 +2762,11 @@ export namespace Prisma {
    * Fields of the Notification model
    */
   interface NotificationFieldRefs {
-    readonly id: FieldRef<"Notification", 'Int'>
+    readonly id: FieldRef<"Notification", 'String'>
     readonly title: FieldRef<"Notification", 'String'>
     readonly message: FieldRef<"Notification", 'String'>
     readonly read: FieldRef<"Notification", 'Boolean'>
+    readonly meta: FieldRef<"Notification", 'Json'>
     readonly createdAt: FieldRef<"Notification", 'DateTime'>
     readonly updatedAt: FieldRef<"Notification", 'DateTime'>
   }
@@ -3174,34 +3146,22 @@ export namespace Prisma {
 
   export type AggregateLog = {
     _count: LogCountAggregateOutputType | null
-    _avg: LogAvgAggregateOutputType | null
-    _sum: LogSumAggregateOutputType | null
     _min: LogMinAggregateOutputType | null
     _max: LogMaxAggregateOutputType | null
   }
 
-  export type LogAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type LogSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type LogMinAggregateOutputType = {
-    id: number | null
-    level: string | null
+    id: string | null
+    level: $Enums.LogLevel | null
     message: string | null
-    context: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type LogMaxAggregateOutputType = {
-    id: number | null
-    level: string | null
+    id: string | null
+    level: $Enums.LogLevel | null
     message: string | null
-    context: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3210,26 +3170,17 @@ export namespace Prisma {
     id: number
     level: number
     message: number
-    context: number
+    meta: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
-  export type LogAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type LogSumAggregateInputType = {
-    id?: true
-  }
-
   export type LogMinAggregateInputType = {
     id?: true
     level?: true
     message?: true
-    context?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3238,7 +3189,6 @@ export namespace Prisma {
     id?: true
     level?: true
     message?: true
-    context?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3247,7 +3197,7 @@ export namespace Prisma {
     id?: true
     level?: true
     message?: true
-    context?: true
+    meta?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3291,18 +3241,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: LogAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: LogSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: LogMinAggregateInputType
@@ -3333,22 +3271,18 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: LogCountAggregateInputType | true
-    _avg?: LogAvgAggregateInputType
-    _sum?: LogSumAggregateInputType
     _min?: LogMinAggregateInputType
     _max?: LogMaxAggregateInputType
   }
 
   export type LogGroupByOutputType = {
-    id: number
-    level: string
+    id: string
+    level: $Enums.LogLevel
     message: string
-    context: string | null
+    meta: JsonValue | null
     createdAt: Date
     updatedAt: Date
     _count: LogCountAggregateOutputType | null
-    _avg: LogAvgAggregateOutputType | null
-    _sum: LogSumAggregateOutputType | null
     _min: LogMinAggregateOutputType | null
     _max: LogMaxAggregateOutputType | null
   }
@@ -3371,7 +3305,7 @@ export namespace Prisma {
     id?: boolean
     level?: boolean
     message?: boolean
-    context?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["log"]>
@@ -3380,7 +3314,7 @@ export namespace Prisma {
     id?: boolean
     level?: boolean
     message?: boolean
-    context?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["log"]>
@@ -3389,7 +3323,7 @@ export namespace Prisma {
     id?: boolean
     level?: boolean
     message?: boolean
-    context?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["log"]>
@@ -3398,21 +3332,21 @@ export namespace Prisma {
     id?: boolean
     level?: boolean
     message?: boolean
-    context?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type LogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "level" | "message" | "context" | "createdAt" | "updatedAt", ExtArgs["result"]["log"]>
+  export type LogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "level" | "message" | "meta" | "createdAt" | "updatedAt", ExtArgs["result"]["log"]>
 
   export type $LogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Log"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      level: string
+      id: string
+      level: $Enums.LogLevel
       message: string
-      context: string | null
+      meta: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["log"]>
@@ -3838,10 +3772,10 @@ export namespace Prisma {
    * Fields of the Log model
    */
   interface LogFieldRefs {
-    readonly id: FieldRef<"Log", 'Int'>
-    readonly level: FieldRef<"Log", 'String'>
+    readonly id: FieldRef<"Log", 'String'>
+    readonly level: FieldRef<"Log", 'LogLevel'>
     readonly message: FieldRef<"Log", 'String'>
-    readonly context: FieldRef<"Log", 'String'>
+    readonly meta: FieldRef<"Log", 'Json'>
     readonly createdAt: FieldRef<"Log", 'DateTime'>
     readonly updatedAt: FieldRef<"Log", 'DateTime'>
   }
@@ -4248,6 +4182,7 @@ export namespace Prisma {
     title: 'title',
     message: 'message',
     read: 'read',
+    meta: 'meta',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -4259,7 +4194,7 @@ export namespace Prisma {
     id: 'id',
     level: 'level',
     message: 'message',
-    context: 'context',
+    meta: 'meta',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -4273,6 +4208,14 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -4291,23 +4234,18 @@ export namespace Prisma {
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
   /**
    * Field references
    */
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
 
 
   /**
@@ -4321,6 +4259,20 @@ export namespace Prisma {
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserRole'
+   */
+  export type EnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserRole[]'
+   */
+  export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole[]'>
     
 
 
@@ -4346,16 +4298,44 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
+   * Reference to a field of type 'Json'
    */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
 
 
   /**
-   * Reference to a field of type 'Float[]'
+   * Reference to a field of type 'QueryMode'
    */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'LogLevel'
+   */
+  export type EnumLogLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LogLevel'>
+    
+
+
+  /**
+   * Reference to a field of type 'LogLevel[]'
+   */
+  export type ListEnumLogLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LogLevel[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
   /**
    * Deep Input Types
@@ -4366,11 +4346,11 @@ export namespace Prisma {
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
-    id?: IntFilter<"Account"> | number
+    id?: StringFilter<"Account"> | string
     email?: StringFilter<"Account"> | string
     password?: StringFilter<"Account"> | string
     name?: StringNullableFilter<"Account"> | string | null
-    role?: StringFilter<"Account"> | string
+    role?: EnumUserRoleFilter<"Account"> | $Enums.UserRole
     status?: StringFilter<"Account"> | string
     createdAt?: DateTimeFilter<"Account"> | Date | string
     updatedAt?: DateTimeFilter<"Account"> | Date | string
@@ -4388,14 +4368,14 @@ export namespace Prisma {
   }
 
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     email?: string
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
     password?: StringFilter<"Account"> | string
     name?: StringNullableFilter<"Account"> | string | null
-    role?: StringFilter<"Account"> | string
+    role?: EnumUserRoleFilter<"Account"> | $Enums.UserRole
     status?: StringFilter<"Account"> | string
     createdAt?: DateTimeFilter<"Account"> | Date | string
     updatedAt?: DateTimeFilter<"Account"> | Date | string
@@ -4411,21 +4391,19 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AccountCountOrderByAggregateInput
-    _avg?: AccountAvgOrderByAggregateInput
     _max?: AccountMaxOrderByAggregateInput
     _min?: AccountMinOrderByAggregateInput
-    _sum?: AccountSumOrderByAggregateInput
   }
 
   export type AccountScalarWhereWithAggregatesInput = {
     AND?: AccountScalarWhereWithAggregatesInput | AccountScalarWhereWithAggregatesInput[]
     OR?: AccountScalarWhereWithAggregatesInput[]
     NOT?: AccountScalarWhereWithAggregatesInput | AccountScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Account"> | number
+    id?: StringWithAggregatesFilter<"Account"> | string
     email?: StringWithAggregatesFilter<"Account"> | string
     password?: StringWithAggregatesFilter<"Account"> | string
     name?: StringNullableWithAggregatesFilter<"Account"> | string | null
-    role?: StringWithAggregatesFilter<"Account"> | string
+    role?: EnumUserRoleWithAggregatesFilter<"Account"> | $Enums.UserRole
     status?: StringWithAggregatesFilter<"Account"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
@@ -4435,10 +4413,11 @@ export namespace Prisma {
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
     NOT?: NotificationWhereInput | NotificationWhereInput[]
-    id?: IntFilter<"Notification"> | number
+    id?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
     message?: StringFilter<"Notification"> | string
     read?: BoolFilter<"Notification"> | boolean
+    meta?: JsonNullableFilter<"Notification">
     createdAt?: DateTimeFilter<"Notification"> | Date | string
     updatedAt?: DateTimeFilter<"Notification"> | Date | string
   }
@@ -4448,18 +4427,20 @@ export namespace Prisma {
     title?: SortOrder
     message?: SortOrder
     read?: SortOrder
+    meta?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type NotificationWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
     NOT?: NotificationWhereInput | NotificationWhereInput[]
     title?: StringFilter<"Notification"> | string
     message?: StringFilter<"Notification"> | string
     read?: BoolFilter<"Notification"> | boolean
+    meta?: JsonNullableFilter<"Notification">
     createdAt?: DateTimeFilter<"Notification"> | Date | string
     updatedAt?: DateTimeFilter<"Notification"> | Date | string
   }, "id">
@@ -4469,23 +4450,23 @@ export namespace Prisma {
     title?: SortOrder
     message?: SortOrder
     read?: SortOrder
+    meta?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: NotificationCountOrderByAggregateInput
-    _avg?: NotificationAvgOrderByAggregateInput
     _max?: NotificationMaxOrderByAggregateInput
     _min?: NotificationMinOrderByAggregateInput
-    _sum?: NotificationSumOrderByAggregateInput
   }
 
   export type NotificationScalarWhereWithAggregatesInput = {
     AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
     OR?: NotificationScalarWhereWithAggregatesInput[]
     NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Notification"> | number
+    id?: StringWithAggregatesFilter<"Notification"> | string
     title?: StringWithAggregatesFilter<"Notification"> | string
     message?: StringWithAggregatesFilter<"Notification"> | string
     read?: BoolWithAggregatesFilter<"Notification"> | boolean
+    meta?: JsonNullableWithAggregatesFilter<"Notification">
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
@@ -4494,10 +4475,10 @@ export namespace Prisma {
     AND?: LogWhereInput | LogWhereInput[]
     OR?: LogWhereInput[]
     NOT?: LogWhereInput | LogWhereInput[]
-    id?: IntFilter<"Log"> | number
-    level?: StringFilter<"Log"> | string
+    id?: StringFilter<"Log"> | string
+    level?: EnumLogLevelFilter<"Log"> | $Enums.LogLevel
     message?: StringFilter<"Log"> | string
-    context?: StringNullableFilter<"Log"> | string | null
+    meta?: JsonNullableFilter<"Log">
     createdAt?: DateTimeFilter<"Log"> | Date | string
     updatedAt?: DateTimeFilter<"Log"> | Date | string
   }
@@ -4506,19 +4487,19 @@ export namespace Prisma {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type LogWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: LogWhereInput | LogWhereInput[]
     OR?: LogWhereInput[]
     NOT?: LogWhereInput | LogWhereInput[]
-    level?: StringFilter<"Log"> | string
+    level?: EnumLogLevelFilter<"Log"> | $Enums.LogLevel
     message?: StringFilter<"Log"> | string
-    context?: StringNullableFilter<"Log"> | string | null
+    meta?: JsonNullableFilter<"Log">
     createdAt?: DateTimeFilter<"Log"> | Date | string
     updatedAt?: DateTimeFilter<"Log"> | Date | string
   }, "id">
@@ -4527,231 +4508,234 @@ export namespace Prisma {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: LogCountOrderByAggregateInput
-    _avg?: LogAvgOrderByAggregateInput
     _max?: LogMaxOrderByAggregateInput
     _min?: LogMinOrderByAggregateInput
-    _sum?: LogSumOrderByAggregateInput
   }
 
   export type LogScalarWhereWithAggregatesInput = {
     AND?: LogScalarWhereWithAggregatesInput | LogScalarWhereWithAggregatesInput[]
     OR?: LogScalarWhereWithAggregatesInput[]
     NOT?: LogScalarWhereWithAggregatesInput | LogScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Log"> | number
-    level?: StringWithAggregatesFilter<"Log"> | string
+    id?: StringWithAggregatesFilter<"Log"> | string
+    level?: EnumLogLevelWithAggregatesFilter<"Log"> | $Enums.LogLevel
     message?: StringWithAggregatesFilter<"Log"> | string
-    context?: StringNullableWithAggregatesFilter<"Log"> | string | null
+    meta?: JsonNullableWithAggregatesFilter<"Log">
     createdAt?: DateTimeWithAggregatesFilter<"Log"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Log"> | Date | string
   }
 
   export type AccountCreateInput = {
+    id: string
     email: string
     password: string
     name?: string | null
-    role?: string
+    role?: $Enums.UserRole
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AccountUncheckedCreateInput = {
-    id?: number
+    id: string
     email: string
     password: string
     name?: string | null
-    role?: string
+    role?: $Enums.UserRole
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AccountUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountCreateManyInput = {
-    id?: number
+    id: string
     email: string
     password: string
     name?: string | null
-    role?: string
+    role?: $Enums.UserRole
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AccountUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationCreateInput = {
+    id: string
     title: string
     message: string
     read?: boolean
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type NotificationUncheckedCreateInput = {
-    id?: number
+    id: string
     title: string
     message: string
     read?: boolean
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type NotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationCreateManyInput = {
-    id?: number
+    id: string
     title: string
     message: string
     read?: boolean
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type NotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogCreateInput = {
-    level: string
+    id: string
+    level?: $Enums.LogLevel
     message: string
-    context?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type LogUncheckedCreateInput = {
-    id?: number
-    level: string
+    id: string
+    level?: $Enums.LogLevel
     message: string
-    context?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type LogUpdateInput = {
-    level?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    level?: EnumLogLevelFieldUpdateOperationsInput | $Enums.LogLevel
     message?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    level?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    level?: EnumLogLevelFieldUpdateOperationsInput | $Enums.LogLevel
     message?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogCreateManyInput = {
-    id?: number
-    level: string
+    id: string
+    level?: $Enums.LogLevel
     message: string
-    context?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type LogUpdateManyMutationInput = {
-    level?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    level?: EnumLogLevelFieldUpdateOperationsInput | $Enums.LogLevel
     message?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    level?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    level?: EnumLogLevelFieldUpdateOperationsInput | $Enums.LogLevel
     message?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -4784,6 +4768,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type EnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4811,10 +4802,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type AccountAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
   export type AccountMaxOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
@@ -4835,26 +4822,6 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type AccountSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -4893,6 +4860,16 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4911,18 +4888,38 @@ export namespace Prisma {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NotificationCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     message?: SortOrder
     read?: SortOrder
+    meta?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type NotificationAvgOrderByAggregateInput = {
-    id?: SortOrder
   }
 
   export type NotificationMaxOrderByAggregateInput = {
@@ -4943,10 +4940,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type NotificationSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -4954,25 +4947,53 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type EnumLogLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogLevel | EnumLogLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogLevelFilter<$PrismaModel> | $Enums.LogLevel
+  }
 
   export type LogCountOrderByAggregateInput = {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrder
+    meta?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type LogAvgOrderByAggregateInput = {
-    id?: SortOrder
   }
 
   export type LogMaxOrderByAggregateInput = {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -4981,13 +5002,18 @@ export namespace Prisma {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type LogSumOrderByAggregateInput = {
-    id?: SortOrder
+  export type EnumLogLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogLevel | EnumLogLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogLevelWithAggregatesFilter<$PrismaModel> | $Enums.LogLevel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLogLevelFilter<$PrismaModel>
+    _max?: NestedEnumLogLevelFilter<$PrismaModel>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -4998,31 +5024,20 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type EnumUserRoleFieldUpdateOperationsInput = {
+    set?: $Enums.UserRole
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type EnumLogLevelFieldUpdateOperationsInput = {
+    set?: $Enums.LogLevel
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5053,6 +5068,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5062,33 +5084,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -5106,6 +5101,17 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -5136,6 +5142,16 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5161,6 +5177,46 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumLogLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogLevel | EnumLogLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogLevelFilter<$PrismaModel> | $Enums.LogLevel
+  }
+
+  export type NestedEnumLogLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogLevel | EnumLogLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogLevelWithAggregatesFilter<$PrismaModel> | $Enums.LogLevel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLogLevelFilter<$PrismaModel>
+    _max?: NestedEnumLogLevelFilter<$PrismaModel>
   }
 
 

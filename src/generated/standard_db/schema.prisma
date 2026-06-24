@@ -7,31 +7,44 @@ datasource db {
   provider = "postgresql"
 }
 
+enum LogLevel {
+  INFO
+  WARN
+  ERROR
+  DEBUG
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
 model Account {
-  id        Int      @id @default(autoincrement())
+  id        String   @id
   email     String   @unique
   password  String
   name      String?
-  role      String   @default("USER")
+  role      UserRole @default(USER)
   status    String   @default("ACTIVE")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Notification {
-  id        Int      @id @default(autoincrement())
+  id        String   @id
   title     String
   message   String
   read      Boolean  @default(false)
+  meta      Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Log {
-  id        Int      @id @default(autoincrement())
-  level     String
+  id        String   @id
+  level     LogLevel @default(INFO)
   message   String
-  context   String?
+  meta      Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

@@ -1,29 +1,37 @@
-function createNotificationHandlers(prismaClient) {
-  async function createNotification(data) {
-    return prismaClient.notification.create({ data });
+ function createNotificationHandlers(prismaClient) {
+  const { sendSuccess } = require("../utils/routeUtils");
+  const { generateId } = require("../utils/idGenerator");
+  const config = require("../config");
+
+  async function createNotification(req, res) {
+    const data = req.body || {};
+    const id = data.id || generateId(config.serverId);
+    const result = await prismaClient.notification.create({ data: { ...data, id } });
+    return sendSuccess(res, result);
   }
 
-  async function listNotifications() {
-    return prismaClient.notification.findMany();
+  async function listNotifications(req, res) {
+    const result = await prismaClient.notification.findMany();
+    return sendSuccess(res, result);
   }
 
-  async function getNotification(id) {
-    return prismaClient.notification.findUnique({
-      where: { id: Number(id) }
-    });
+  async function getNotification(req, res) {
+    const id = req.params.id;
+    const result = await prismaClient.notification.findUnique({ where: { id: String(id) } });
+    return sendSuccess(res, result);
   }
 
-  async function updateNotification(id, data) {
-    return prismaClient.notification.update({
-      where: { id: Number(id) },
-      data
-    });
+  async function updateNotification(req, res) {
+    const id = req.params.id;
+    const data = req.body || {};
+    const result = await prismaClient.notification.update({ where: { id: String(id) }, data });
+    return sendSuccess(res, result);
   }
 
-  async function deleteNotification(id) {
-    return prismaClient.notification.delete({
-      where: { id: Number(id) }
-    });
+  async function deleteNotification(req, res) {
+    const id = req.params.id;
+    const result = await prismaClient.notification.delete({ where: { id: String(id) } });
+    return sendSuccess(res, result);
   }
 
   return {

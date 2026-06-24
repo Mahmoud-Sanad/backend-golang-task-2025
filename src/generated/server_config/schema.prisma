@@ -7,11 +7,16 @@ datasource db {
   provider = "postgresql"
 }
 
+enum LogLevel {
+  INFO
+  WARN
+  ERROR
+  DEBUG
+}
+
 enum ServerType {
   STANDARD
   PAYMENT
-  AUTH
-  OTHER
 }
 
 enum ServerStatus {
@@ -21,32 +26,23 @@ enum ServerStatus {
 }
 
 model Server {
-  id         Int          @id @default(autoincrement())
+  id         String       @id @default(uuid())
   serverId   String       @unique
   host       String
   port       Int
   wsUrl      String
-  status     ServerStatus
-  serverType ServerType
+  status     ServerStatus @default(ONLINE)
+  serverType ServerType   @default(STANDARD)
   deviceId   String?
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 }
 
-model Notification {
-  id        Int      @id @default(autoincrement())
-  title     String
-  message   String
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Log {
-  id        Int      @id @default(autoincrement())
-  level     String
+  id        String   @id
+  level     LogLevel @default(INFO)
   message   String
-  context   String?
+  meta      Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

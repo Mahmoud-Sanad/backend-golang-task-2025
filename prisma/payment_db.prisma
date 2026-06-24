@@ -28,20 +28,21 @@ enum TransactionStatus {
 }
 
 model Product {
-    id          Int            @id @default(autoincrement())
+    id        String   @id 
     name        String
     description String?
     price       Float
     createdBy   Int
     createdAt   DateTime       @default(now())
     updatedAt   DateTime       @updatedAt
-    stocks      ProductStock[]
+    trackStock  Boolean        @default(false)
+    stocks      ProductStock?  
     orderItems  OrderItem[]
 }
 
 model ProductStock {
-    id        Int      @id @default(autoincrement())
-    productId Int
+    id        String   @id 
+    productId String   @unique
     quantity  Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -50,8 +51,8 @@ model ProductStock {
 }
 
 model Order {
-    id           Int           @id @default(autoincrement())
-    userId       Int
+    id        String   @id 
+    userId       String?
     status       OrderStatus   @default(PENDING)
     total        Float
     createdAt    DateTime      @default(now())
@@ -61,9 +62,9 @@ model Order {
 }
 
 model OrderItem {
-    id        Int      @id @default(autoincrement())
-    orderId   Int
-    productId Int
+    id        String   @id 
+    orderId   String
+    productId String
     quantity  Int
     price     Float
     createdAt DateTime @default(now())
@@ -74,19 +75,19 @@ model OrderItem {
 }
 
 model Transaction {
-    id        Int               @id @default(autoincrement())
-    userId    Int
+    id        String   @id 
+    userId    String?
     status    TransactionStatus
     amount    Float
     note      String?
-    orderId   Int?
+    orderId   String?
     order     Order?            @relation(fields: [orderId], references: [id])
     createdAt DateTime          @default(now())
     updatedAt DateTime          @updatedAt
 }
 
 model Log {
-    id        Int      @id @default(autoincrement())
+    id        String   @id 
     level     LogLevel @default(INFO)
     message   String
     meta      Json?

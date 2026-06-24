@@ -126,9 +126,9 @@ exports.Prisma.ProductScalarFieldEnum = {
   description: 'description',
   price: 'price',
   createdBy: 'createdBy',
-  status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  trackStock: 'trackStock'
 };
 
 exports.Prisma.ProductStockScalarFieldEnum = {
@@ -136,7 +136,8 @@ exports.Prisma.ProductStockScalarFieldEnum = {
   productId: 'productId',
   quantity: 'quantity',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  alertAt: 'alertAt'
 };
 
 exports.Prisma.OrderScalarFieldEnum = {
@@ -161,19 +162,10 @@ exports.Prisma.OrderItemScalarFieldEnum = {
 exports.Prisma.TransactionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  type: 'type',
   status: 'status',
   amount: 'amount',
   note: 'note',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.NotificationScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  message: 'message',
-  read: 'read',
+  orderId: 'orderId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -182,7 +174,7 @@ exports.Prisma.LogScalarFieldEnum = {
   id: 'id',
   level: 'level',
   message: 'message',
-  context: 'context',
+  meta: 'meta',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -190,6 +182,11 @@ exports.Prisma.LogScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -201,29 +198,30 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.ProductStatus = exports.$Enums.ProductStatus = {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
-  OUT_OF_STOCK: 'OUT_OF_STOCK'
-};
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.OrderStatus = exports.$Enums.OrderStatus = {
   PENDING: 'PENDING',
-  PAID: 'PAID',
-  SHIPPED: 'SHIPPED',
-  CANCELED: 'CANCELED'
-};
-
-exports.TransactionType = exports.$Enums.TransactionType = {
-  DEPOSIT: 'DEPOSIT',
-  WITHDRAWAL: 'WITHDRAWAL',
-  REFUND: 'REFUND'
+  DELIVERING: 'DELIVERING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.TransactionStatus = exports.$Enums.TransactionStatus = {
-  PENDING: 'PENDING',
-  COMPLETED: 'COMPLETED',
+  REFUND: 'REFUND',
+  PAID: 'PAID',
   FAILED: 'FAILED'
+};
+
+exports.LogLevel = exports.$Enums.LogLevel = {
+  INFO: 'INFO',
+  WARN: 'WARN',
+  ERROR: 'ERROR',
+  DEBUG: 'DEBUG'
 };
 
 exports.Prisma.ModelName = {
@@ -232,7 +230,6 @@ exports.Prisma.ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Transaction: 'Transaction',
-  Notification: 'Notification',
   Log: 'Log'
 };
 

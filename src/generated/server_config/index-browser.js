@@ -133,20 +133,11 @@ exports.Prisma.ServerScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.NotificationScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  message: 'message',
-  read: 'read',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.LogScalarFieldEnum = {
   id: 'id',
   level: 'level',
   message: 'message',
-  context: 'context',
+  meta: 'meta',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -154,6 +145,11 @@ exports.Prisma.LogScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -165,6 +161,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.ServerStatus = exports.$Enums.ServerStatus = {
   ONLINE: 'ONLINE',
   OFFLINE: 'OFFLINE',
@@ -173,14 +175,18 @@ exports.ServerStatus = exports.$Enums.ServerStatus = {
 
 exports.ServerType = exports.$Enums.ServerType = {
   STANDARD: 'STANDARD',
-  PAYMENT: 'PAYMENT',
-  AUTH: 'AUTH',
-  OTHER: 'OTHER'
+  PAYMENT: 'PAYMENT'
+};
+
+exports.LogLevel = exports.$Enums.LogLevel = {
+  INFO: 'INFO',
+  WARN: 'WARN',
+  ERROR: 'ERROR',
+  DEBUG: 'DEBUG'
 };
 
 exports.Prisma.ModelName = {
   Server: 'Server',
-  Notification: 'Notification',
   Log: 'Log'
 };
 

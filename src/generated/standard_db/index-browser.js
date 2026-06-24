@@ -136,6 +136,7 @@ exports.Prisma.NotificationScalarFieldEnum = {
   title: 'title',
   message: 'message',
   read: 'read',
+  meta: 'meta',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -144,7 +145,7 @@ exports.Prisma.LogScalarFieldEnum = {
   id: 'id',
   level: 'level',
   message: 'message',
-  context: 'context',
+  meta: 'meta',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -152,6 +153,11 @@ exports.Prisma.LogScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -164,6 +170,22 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.UserRole = exports.$Enums.UserRole = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
+exports.LogLevel = exports.$Enums.LogLevel = {
+  INFO: 'INFO',
+  WARN: 'WARN',
+  ERROR: 'ERROR',
+  DEBUG: 'DEBUG'
+};
 
 exports.Prisma.ModelName = {
   Account: 'Account',

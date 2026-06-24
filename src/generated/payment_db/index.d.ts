@@ -39,11 +39,6 @@ export type OrderItem = $Result.DefaultSelection<Prisma.$OrderItemPayload>
  */
 export type Transaction = $Result.DefaultSelection<Prisma.$TransactionPayload>
 /**
- * Model Notification
- * 
- */
-export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
-/**
  * Model Log
  * 
  */
@@ -53,37 +48,29 @@ export type Log = $Result.DefaultSelection<Prisma.$LogPayload>
  * Enums
  */
 export namespace $Enums {
-  export const ProductStatus: {
-  ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
-  OUT_OF_STOCK: 'OUT_OF_STOCK'
-};
-
-export type ProductStatus = (typeof ProductStatus)[keyof typeof ProductStatus]
-
-
-export const OrderStatus: {
+  export const OrderStatus: {
   PENDING: 'PENDING',
-  PAID: 'PAID',
-  SHIPPED: 'SHIPPED',
-  CANCELED: 'CANCELED'
+  DELIVERING: 'DELIVERING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
 };
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
 
-export const TransactionType: {
-  DEPOSIT: 'DEPOSIT',
-  WITHDRAWAL: 'WITHDRAWAL',
-  REFUND: 'REFUND'
+export const LogLevel: {
+  INFO: 'INFO',
+  WARN: 'WARN',
+  ERROR: 'ERROR',
+  DEBUG: 'DEBUG'
 };
 
-export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+export type LogLevel = (typeof LogLevel)[keyof typeof LogLevel]
 
 
 export const TransactionStatus: {
-  PENDING: 'PENDING',
-  COMPLETED: 'COMPLETED',
+  REFUND: 'REFUND',
+  PAID: 'PAID',
   FAILED: 'FAILED'
 };
 
@@ -91,17 +78,13 @@ export type TransactionStatus = (typeof TransactionStatus)[keyof typeof Transact
 
 }
 
-export type ProductStatus = $Enums.ProductStatus
-
-export const ProductStatus: typeof $Enums.ProductStatus
-
 export type OrderStatus = $Enums.OrderStatus
 
 export const OrderStatus: typeof $Enums.OrderStatus
 
-export type TransactionType = $Enums.TransactionType
+export type LogLevel = $Enums.LogLevel
 
-export const TransactionType: typeof $Enums.TransactionType
+export const LogLevel: typeof $Enums.LogLevel
 
 export type TransactionStatus = $Enums.TransactionStatus
 
@@ -277,16 +260,6 @@ export class PrismaClient<
     * ```
     */
   get transaction(): Prisma.TransactionDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Notifications
-    * const notifications = await prisma.notification.findMany()
-    * ```
-    */
-  get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.log`: Exposes CRUD operations for the **Log** model.
@@ -736,7 +709,6 @@ export namespace Prisma {
     Order: 'Order',
     OrderItem: 'OrderItem',
     Transaction: 'Transaction',
-    Notification: 'Notification',
     Log: 'Log'
   };
 
@@ -753,7 +725,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "product" | "productStock" | "order" | "orderItem" | "transaction" | "notification" | "log"
+      modelProps: "product" | "productStock" | "order" | "orderItem" | "transaction" | "log"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1127,80 +1099,6 @@ export namespace Prisma {
           }
         }
       }
-      Notification: {
-        payload: Prisma.$NotificationPayload<ExtArgs>
-        fields: Prisma.NotificationFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.NotificationFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
-          }
-          findFirst: {
-            args: Prisma.NotificationFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
-          }
-          findMany: {
-            args: Prisma.NotificationFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
-          }
-          create: {
-            args: Prisma.NotificationCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
-          }
-          createMany: {
-            args: Prisma.NotificationCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
-          }
-          delete: {
-            args: Prisma.NotificationDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
-          }
-          update: {
-            args: Prisma.NotificationUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
-          }
-          deleteMany: {
-            args: Prisma.NotificationDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.NotificationUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
-          }
-          upsert: {
-            args: Prisma.NotificationUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
-          }
-          aggregate: {
-            args: Prisma.NotificationAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateNotification>
-          }
-          groupBy: {
-            args: Prisma.NotificationGroupByArgs<ExtArgs>
-            result: $Utils.Optional<NotificationGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.NotificationCountArgs<ExtArgs>
-            result: $Utils.Optional<NotificationCountAggregateOutputType> | number
-          }
-        }
-      }
       Log: {
         payload: Prisma.$LogPayload<ExtArgs>
         fields: Prisma.LogFieldRefs
@@ -1388,7 +1286,6 @@ export namespace Prisma {
     order?: OrderOmit
     orderItem?: OrderItemOmit
     transaction?: TransactionOmit
-    notification?: NotificationOmit
     log?: LogOmit
   }
 
@@ -1470,12 +1367,10 @@ export namespace Prisma {
    */
 
   export type ProductCountOutputType = {
-    stocks: number
     orderItems: number
   }
 
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    stocks?: boolean | ProductCountOutputTypeCountStocksArgs
     orderItems?: boolean | ProductCountOutputTypeCountOrderItemsArgs
   }
 
@@ -1493,13 +1388,6 @@ export namespace Prisma {
   /**
    * ProductCountOutputType without action
    */
-  export type ProductCountOutputTypeCountStocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProductStockWhereInput
-  }
-
-  /**
-   * ProductCountOutputType without action
-   */
   export type ProductCountOutputTypeCountOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderItemWhereInput
   }
@@ -1511,10 +1399,12 @@ export namespace Prisma {
 
   export type OrderCountOutputType = {
     orderItems: number
+    transactions: number
   }
 
   export type OrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orderItems?: boolean | OrderCountOutputTypeCountOrderItemsArgs
+    transactions?: boolean | OrderCountOutputTypeCountTransactionsArgs
   }
 
   // Custom InputTypes
@@ -1535,6 +1425,13 @@ export namespace Prisma {
     where?: OrderItemWhereInput
   }
 
+  /**
+   * OrderCountOutputType without action
+   */
+  export type OrderCountOutputTypeCountTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransactionWhereInput
+  }
+
 
   /**
    * Models
@@ -1553,37 +1450,35 @@ export namespace Prisma {
   }
 
   export type ProductAvgAggregateOutputType = {
-    id: number | null
     price: number | null
     createdBy: number | null
   }
 
   export type ProductSumAggregateOutputType = {
-    id: number | null
     price: number | null
     createdBy: number | null
   }
 
   export type ProductMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     description: string | null
     price: number | null
     createdBy: number | null
-    status: $Enums.ProductStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    trackStock: boolean | null
   }
 
   export type ProductMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     description: string | null
     price: number | null
     createdBy: number | null
-    status: $Enums.ProductStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    trackStock: boolean | null
   }
 
   export type ProductCountAggregateOutputType = {
@@ -1592,21 +1487,19 @@ export namespace Prisma {
     description: number
     price: number
     createdBy: number
-    status: number
     createdAt: number
     updatedAt: number
+    trackStock: number
     _all: number
   }
 
 
   export type ProductAvgAggregateInputType = {
-    id?: true
     price?: true
     createdBy?: true
   }
 
   export type ProductSumAggregateInputType = {
-    id?: true
     price?: true
     createdBy?: true
   }
@@ -1617,9 +1510,9 @@ export namespace Prisma {
     description?: true
     price?: true
     createdBy?: true
-    status?: true
     createdAt?: true
     updatedAt?: true
+    trackStock?: true
   }
 
   export type ProductMaxAggregateInputType = {
@@ -1628,9 +1521,9 @@ export namespace Prisma {
     description?: true
     price?: true
     createdBy?: true
-    status?: true
     createdAt?: true
     updatedAt?: true
+    trackStock?: true
   }
 
   export type ProductCountAggregateInputType = {
@@ -1639,9 +1532,9 @@ export namespace Prisma {
     description?: true
     price?: true
     createdBy?: true
-    status?: true
     createdAt?: true
     updatedAt?: true
+    trackStock?: true
     _all?: true
   }
 
@@ -1732,14 +1625,14 @@ export namespace Prisma {
   }
 
   export type ProductGroupByOutputType = {
-    id: number
+    id: string
     name: string
     description: string | null
     price: number
     createdBy: number
-    status: $Enums.ProductStatus
     createdAt: Date
     updatedAt: Date
+    trackStock: boolean
     _count: ProductCountAggregateOutputType | null
     _avg: ProductAvgAggregateOutputType | null
     _sum: ProductSumAggregateOutputType | null
@@ -1767,9 +1660,9 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     createdBy?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    trackStock?: boolean
     stocks?: boolean | Product$stocksArgs<ExtArgs>
     orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
@@ -1781,9 +1674,9 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     createdBy?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    trackStock?: boolean
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1792,9 +1685,9 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     createdBy?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    trackStock?: boolean
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectScalar = {
@@ -1803,12 +1696,12 @@ export namespace Prisma {
     description?: boolean
     price?: boolean
     createdBy?: boolean
-    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    trackStock?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "createdBy" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "createdBy" | "createdAt" | "updatedAt" | "trackStock", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stocks?: boolean | Product$stocksArgs<ExtArgs>
     orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
@@ -1820,18 +1713,18 @@ export namespace Prisma {
   export type $ProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Product"
     objects: {
-      stocks: Prisma.$ProductStockPayload<ExtArgs>[]
+      stocks: Prisma.$ProductStockPayload<ExtArgs> | null
       orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       name: string
       description: string | null
       price: number
       createdBy: number
-      status: $Enums.ProductStatus
       createdAt: Date
       updatedAt: Date
+      trackStock: boolean
     }, ExtArgs["result"]["product"]>
     composites: {}
   }
@@ -2226,7 +2119,7 @@ export namespace Prisma {
    */
   export interface Prisma__ProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    stocks<T extends Product$stocksArgs<ExtArgs> = {}>(args?: Subset<T, Product$stocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductStockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    stocks<T extends Product$stocksArgs<ExtArgs> = {}>(args?: Subset<T, Product$stocksArgs<ExtArgs>>): Prisma__ProductStockClient<$Result.GetResult<Prisma.$ProductStockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     orderItems<T extends Product$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2257,14 +2150,14 @@ export namespace Prisma {
    * Fields of the Product model
    */
   interface ProductFieldRefs {
-    readonly id: FieldRef<"Product", 'Int'>
+    readonly id: FieldRef<"Product", 'String'>
     readonly name: FieldRef<"Product", 'String'>
     readonly description: FieldRef<"Product", 'String'>
     readonly price: FieldRef<"Product", 'Float'>
     readonly createdBy: FieldRef<"Product", 'Int'>
-    readonly status: FieldRef<"Product", 'ProductStatus'>
     readonly createdAt: FieldRef<"Product", 'DateTime'>
     readonly updatedAt: FieldRef<"Product", 'DateTime'>
+    readonly trackStock: FieldRef<"Product", 'Boolean'>
   }
     
 
@@ -2674,11 +2567,6 @@ export namespace Prisma {
      */
     include?: ProductStockInclude<ExtArgs> | null
     where?: ProductStockWhereInput
-    orderBy?: ProductStockOrderByWithRelationInput | ProductStockOrderByWithRelationInput[]
-    cursor?: ProductStockWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProductStockScalarFieldEnum | ProductStockScalarFieldEnum[]
   }
 
   /**
@@ -2737,31 +2625,31 @@ export namespace Prisma {
   }
 
   export type ProductStockAvgAggregateOutputType = {
-    id: number | null
-    productId: number | null
     quantity: number | null
+    alertAt: number | null
   }
 
   export type ProductStockSumAggregateOutputType = {
-    id: number | null
-    productId: number | null
     quantity: number | null
+    alertAt: number | null
   }
 
   export type ProductStockMinAggregateOutputType = {
-    id: number | null
-    productId: number | null
+    id: string | null
+    productId: string | null
     quantity: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    alertAt: number | null
   }
 
   export type ProductStockMaxAggregateOutputType = {
-    id: number | null
-    productId: number | null
+    id: string | null
+    productId: string | null
     quantity: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    alertAt: number | null
   }
 
   export type ProductStockCountAggregateOutputType = {
@@ -2770,20 +2658,19 @@ export namespace Prisma {
     quantity: number
     createdAt: number
     updatedAt: number
+    alertAt: number
     _all: number
   }
 
 
   export type ProductStockAvgAggregateInputType = {
-    id?: true
-    productId?: true
     quantity?: true
+    alertAt?: true
   }
 
   export type ProductStockSumAggregateInputType = {
-    id?: true
-    productId?: true
     quantity?: true
+    alertAt?: true
   }
 
   export type ProductStockMinAggregateInputType = {
@@ -2792,6 +2679,7 @@ export namespace Prisma {
     quantity?: true
     createdAt?: true
     updatedAt?: true
+    alertAt?: true
   }
 
   export type ProductStockMaxAggregateInputType = {
@@ -2800,6 +2688,7 @@ export namespace Prisma {
     quantity?: true
     createdAt?: true
     updatedAt?: true
+    alertAt?: true
   }
 
   export type ProductStockCountAggregateInputType = {
@@ -2808,6 +2697,7 @@ export namespace Prisma {
     quantity?: true
     createdAt?: true
     updatedAt?: true
+    alertAt?: true
     _all?: true
   }
 
@@ -2898,11 +2788,12 @@ export namespace Prisma {
   }
 
   export type ProductStockGroupByOutputType = {
-    id: number
-    productId: number
+    id: string
+    productId: string
     quantity: number
     createdAt: Date
     updatedAt: Date
+    alertAt: number
     _count: ProductStockCountAggregateOutputType | null
     _avg: ProductStockAvgAggregateOutputType | null
     _sum: ProductStockSumAggregateOutputType | null
@@ -2930,6 +2821,7 @@ export namespace Prisma {
     quantity?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    alertAt?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["productStock"]>
 
@@ -2939,6 +2831,7 @@ export namespace Prisma {
     quantity?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    alertAt?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["productStock"]>
 
@@ -2948,6 +2841,7 @@ export namespace Prisma {
     quantity?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    alertAt?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["productStock"]>
 
@@ -2957,9 +2851,10 @@ export namespace Prisma {
     quantity?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    alertAt?: boolean
   }
 
-  export type ProductStockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "quantity" | "createdAt" | "updatedAt", ExtArgs["result"]["productStock"]>
+  export type ProductStockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "quantity" | "createdAt" | "updatedAt" | "alertAt", ExtArgs["result"]["productStock"]>
   export type ProductStockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }
@@ -2976,11 +2871,12 @@ export namespace Prisma {
       product: Prisma.$ProductPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      productId: number
+      id: string
+      productId: string
       quantity: number
       createdAt: Date
       updatedAt: Date
+      alertAt: number
     }, ExtArgs["result"]["productStock"]>
     composites: {}
   }
@@ -3405,11 +3301,12 @@ export namespace Prisma {
    * Fields of the ProductStock model
    */
   interface ProductStockFieldRefs {
-    readonly id: FieldRef<"ProductStock", 'Int'>
-    readonly productId: FieldRef<"ProductStock", 'Int'>
+    readonly id: FieldRef<"ProductStock", 'String'>
+    readonly productId: FieldRef<"ProductStock", 'String'>
     readonly quantity: FieldRef<"ProductStock", 'Int'>
     readonly createdAt: FieldRef<"ProductStock", 'DateTime'>
     readonly updatedAt: FieldRef<"ProductStock", 'DateTime'>
+    readonly alertAt: FieldRef<"ProductStock", 'Int'>
   }
     
 
@@ -3842,20 +3739,16 @@ export namespace Prisma {
   }
 
   export type OrderAvgAggregateOutputType = {
-    id: number | null
-    userId: number | null
     total: number | null
   }
 
   export type OrderSumAggregateOutputType = {
-    id: number | null
-    userId: number | null
     total: number | null
   }
 
   export type OrderMinAggregateOutputType = {
-    id: number | null
-    userId: number | null
+    id: string | null
+    userId: string | null
     status: $Enums.OrderStatus | null
     total: number | null
     createdAt: Date | null
@@ -3863,8 +3756,8 @@ export namespace Prisma {
   }
 
   export type OrderMaxAggregateOutputType = {
-    id: number | null
-    userId: number | null
+    id: string | null
+    userId: string | null
     status: $Enums.OrderStatus | null
     total: number | null
     createdAt: Date | null
@@ -3883,14 +3776,10 @@ export namespace Prisma {
 
 
   export type OrderAvgAggregateInputType = {
-    id?: true
-    userId?: true
     total?: true
   }
 
   export type OrderSumAggregateInputType = {
-    id?: true
-    userId?: true
     total?: true
   }
 
@@ -4009,8 +3898,8 @@ export namespace Prisma {
   }
 
   export type OrderGroupByOutputType = {
-    id: number
-    userId: number
+    id: string
+    userId: string | null
     status: $Enums.OrderStatus
     total: number
     createdAt: Date
@@ -4044,6 +3933,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     orderItems?: boolean | Order$orderItemsArgs<ExtArgs>
+    transactions?: boolean | Order$transactionsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -4077,6 +3967,7 @@ export namespace Prisma {
   export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "status" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orderItems?: boolean | Order$orderItemsArgs<ExtArgs>
+    transactions?: boolean | Order$transactionsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4086,10 +3977,11 @@ export namespace Prisma {
     name: "Order"
     objects: {
       orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
+      transactions: Prisma.$TransactionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      userId: number
+      id: string
+      userId: string | null
       status: $Enums.OrderStatus
       total: number
       createdAt: Date
@@ -4489,6 +4381,7 @@ export namespace Prisma {
   export interface Prisma__OrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     orderItems<T extends Order$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Order$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transactions<T extends Order$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, Order$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4518,8 +4411,8 @@ export namespace Prisma {
    * Fields of the Order model
    */
   interface OrderFieldRefs {
-    readonly id: FieldRef<"Order", 'Int'>
-    readonly userId: FieldRef<"Order", 'Int'>
+    readonly id: FieldRef<"Order", 'String'>
+    readonly userId: FieldRef<"Order", 'String'>
     readonly status: FieldRef<"Order", 'OrderStatus'>
     readonly total: FieldRef<"Order", 'Float'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
@@ -4941,6 +4834,30 @@ export namespace Prisma {
   }
 
   /**
+   * Order.transactions
+   */
+  export type Order$transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     */
+    select?: TransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transaction
+     */
+    omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    where?: TransactionWhereInput
+    orderBy?: TransactionOrderByWithRelationInput | TransactionOrderByWithRelationInput[]
+    cursor?: TransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
+  }
+
+  /**
    * Order without action
    */
   export type OrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4972,25 +4889,19 @@ export namespace Prisma {
   }
 
   export type OrderItemAvgAggregateOutputType = {
-    id: number | null
-    orderId: number | null
-    productId: number | null
     quantity: number | null
     price: number | null
   }
 
   export type OrderItemSumAggregateOutputType = {
-    id: number | null
-    orderId: number | null
-    productId: number | null
     quantity: number | null
     price: number | null
   }
 
   export type OrderItemMinAggregateOutputType = {
-    id: number | null
-    orderId: number | null
-    productId: number | null
+    id: string | null
+    orderId: string | null
+    productId: string | null
     quantity: number | null
     price: number | null
     createdAt: Date | null
@@ -4998,9 +4909,9 @@ export namespace Prisma {
   }
 
   export type OrderItemMaxAggregateOutputType = {
-    id: number | null
-    orderId: number | null
-    productId: number | null
+    id: string | null
+    orderId: string | null
+    productId: string | null
     quantity: number | null
     price: number | null
     createdAt: Date | null
@@ -5020,17 +4931,11 @@ export namespace Prisma {
 
 
   export type OrderItemAvgAggregateInputType = {
-    id?: true
-    orderId?: true
-    productId?: true
     quantity?: true
     price?: true
   }
 
   export type OrderItemSumAggregateInputType = {
-    id?: true
-    orderId?: true
-    productId?: true
     quantity?: true
     price?: true
   }
@@ -5153,9 +5058,9 @@ export namespace Prisma {
   }
 
   export type OrderItemGroupByOutputType = {
-    id: number
-    orderId: number
-    productId: number
+    id: string
+    orderId: string
+    productId: string
     quantity: number
     price: number
     createdAt: Date
@@ -5248,9 +5153,9 @@ export namespace Prisma {
       product: Prisma.$ProductPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      orderId: number
-      productId: number
+      id: string
+      orderId: string
+      productId: string
       quantity: number
       price: number
       createdAt: Date
@@ -5680,9 +5585,9 @@ export namespace Prisma {
    * Fields of the OrderItem model
    */
   interface OrderItemFieldRefs {
-    readonly id: FieldRef<"OrderItem", 'Int'>
-    readonly orderId: FieldRef<"OrderItem", 'Int'>
-    readonly productId: FieldRef<"OrderItem", 'Int'>
+    readonly id: FieldRef<"OrderItem", 'String'>
+    readonly orderId: FieldRef<"OrderItem", 'String'>
+    readonly productId: FieldRef<"OrderItem", 'String'>
     readonly quantity: FieldRef<"OrderItem", 'Int'>
     readonly price: FieldRef<"OrderItem", 'Float'>
     readonly createdAt: FieldRef<"OrderItem", 'DateTime'>
@@ -6119,35 +6024,31 @@ export namespace Prisma {
   }
 
   export type TransactionAvgAggregateOutputType = {
-    id: number | null
-    userId: number | null
     amount: number | null
   }
 
   export type TransactionSumAggregateOutputType = {
-    id: number | null
-    userId: number | null
     amount: number | null
   }
 
   export type TransactionMinAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    type: $Enums.TransactionType | null
+    id: string | null
+    userId: string | null
     status: $Enums.TransactionStatus | null
     amount: number | null
     note: string | null
+    orderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type TransactionMaxAggregateOutputType = {
-    id: number | null
-    userId: number | null
-    type: $Enums.TransactionType | null
+    id: string | null
+    userId: string | null
     status: $Enums.TransactionStatus | null
     amount: number | null
     note: string | null
+    orderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6155,10 +6056,10 @@ export namespace Prisma {
   export type TransactionCountAggregateOutputType = {
     id: number
     userId: number
-    type: number
     status: number
     amount: number
     note: number
+    orderId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -6166,24 +6067,20 @@ export namespace Prisma {
 
 
   export type TransactionAvgAggregateInputType = {
-    id?: true
-    userId?: true
     amount?: true
   }
 
   export type TransactionSumAggregateInputType = {
-    id?: true
-    userId?: true
     amount?: true
   }
 
   export type TransactionMinAggregateInputType = {
     id?: true
     userId?: true
-    type?: true
     status?: true
     amount?: true
     note?: true
+    orderId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6191,10 +6088,10 @@ export namespace Prisma {
   export type TransactionMaxAggregateInputType = {
     id?: true
     userId?: true
-    type?: true
     status?: true
     amount?: true
     note?: true
+    orderId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6202,10 +6099,10 @@ export namespace Prisma {
   export type TransactionCountAggregateInputType = {
     id?: true
     userId?: true
-    type?: true
     status?: true
     amount?: true
     note?: true
+    orderId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6298,12 +6195,12 @@ export namespace Prisma {
   }
 
   export type TransactionGroupByOutputType = {
-    id: number
-    userId: number
-    type: $Enums.TransactionType
+    id: string
+    userId: string | null
     status: $Enums.TransactionStatus
     amount: number
     note: string | null
+    orderId: string | null
     createdAt: Date
     updatedAt: Date
     _count: TransactionCountAggregateOutputType | null
@@ -6330,59 +6227,73 @@ export namespace Prisma {
   export type TransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    type?: boolean
     status?: boolean
     amount?: boolean
     note?: boolean
+    orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    order?: boolean | Transaction$orderArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    type?: boolean
     status?: boolean
     amount?: boolean
     note?: boolean
+    orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    order?: boolean | Transaction$orderArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    type?: boolean
     status?: boolean
     amount?: boolean
     note?: boolean
+    orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    order?: boolean | Transaction$orderArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectScalar = {
     id?: boolean
     userId?: boolean
-    type?: boolean
     status?: boolean
     amount?: boolean
     note?: boolean
+    orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "status" | "amount" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "status" | "amount" | "note" | "orderId" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
+  export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    order?: boolean | Transaction$orderArgs<ExtArgs>
+  }
+  export type TransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    order?: boolean | Transaction$orderArgs<ExtArgs>
+  }
+  export type TransactionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    order?: boolean | Transaction$orderArgs<ExtArgs>
+  }
 
   export type $TransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Transaction"
-    objects: {}
+    objects: {
+      order: Prisma.$OrderPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      userId: number
-      type: $Enums.TransactionType
+      id: string
+      userId: string | null
       status: $Enums.TransactionStatus
       amount: number
       note: string | null
+      orderId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["transaction"]>
@@ -6779,6 +6690,7 @@ export namespace Prisma {
    */
   export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    order<T extends Transaction$orderArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$orderArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6808,12 +6720,12 @@ export namespace Prisma {
    * Fields of the Transaction model
    */
   interface TransactionFieldRefs {
-    readonly id: FieldRef<"Transaction", 'Int'>
-    readonly userId: FieldRef<"Transaction", 'Int'>
-    readonly type: FieldRef<"Transaction", 'TransactionType'>
+    readonly id: FieldRef<"Transaction", 'String'>
+    readonly userId: FieldRef<"Transaction", 'String'>
     readonly status: FieldRef<"Transaction", 'TransactionStatus'>
     readonly amount: FieldRef<"Transaction", 'Float'>
     readonly note: FieldRef<"Transaction", 'String'>
+    readonly orderId: FieldRef<"Transaction", 'String'>
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
   }
@@ -6833,6 +6745,10 @@ export namespace Prisma {
      */
     omit?: TransactionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    /**
      * Filter, which Transaction to fetch.
      */
     where: TransactionWhereUniqueInput
@@ -6851,6 +6767,10 @@ export namespace Prisma {
      */
     omit?: TransactionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    /**
      * Filter, which Transaction to fetch.
      */
     where: TransactionWhereUniqueInput
@@ -6868,6 +6788,10 @@ export namespace Prisma {
      * Omit specific fields from the Transaction
      */
     omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
     /**
      * Filter, which Transaction to fetch.
      */
@@ -6917,6 +6841,10 @@ export namespace Prisma {
      */
     omit?: TransactionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    /**
      * Filter, which Transaction to fetch.
      */
     where?: TransactionWhereInput
@@ -6964,6 +6892,10 @@ export namespace Prisma {
      * Omit specific fields from the Transaction
      */
     omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
     /**
      * Filter, which Transactions to fetch.
      */
@@ -7013,6 +6945,10 @@ export namespace Prisma {
      */
     omit?: TransactionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    /**
      * The data needed to create a Transaction.
      */
     data: XOR<TransactionCreateInput, TransactionUncheckedCreateInput>
@@ -7046,6 +6982,10 @@ export namespace Prisma {
      */
     data: TransactionCreateManyInput | TransactionCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7060,6 +7000,10 @@ export namespace Prisma {
      * Omit specific fields from the Transaction
      */
     omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
     /**
      * The data needed to update a Transaction.
      */
@@ -7112,6 +7056,10 @@ export namespace Prisma {
      * Limit how many Transactions to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7126,6 +7074,10 @@ export namespace Prisma {
      * Omit specific fields from the Transaction
      */
     omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
     /**
      * The filter to search for the Transaction to update in case it exists.
      */
@@ -7153,6 +7105,10 @@ export namespace Prisma {
      */
     omit?: TransactionOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    /**
      * Filter which Transaction to delete.
      */
     where: TransactionWhereUniqueInput
@@ -7173,6 +7129,25 @@ export namespace Prisma {
   }
 
   /**
+   * Transaction.order
+   */
+  export type Transaction$orderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+  }
+
+  /**
    * Transaction without action
    */
   export type TransactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7184,1053 +7159,10 @@ export namespace Prisma {
      * Omit specific fields from the Transaction
      */
     omit?: TransactionOmit<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Notification
-   */
-
-  export type AggregateNotification = {
-    _count: NotificationCountAggregateOutputType | null
-    _avg: NotificationAvgAggregateOutputType | null
-    _sum: NotificationSumAggregateOutputType | null
-    _min: NotificationMinAggregateOutputType | null
-    _max: NotificationMaxAggregateOutputType | null
-  }
-
-  export type NotificationAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type NotificationSumAggregateOutputType = {
-    id: number | null
-  }
-
-  export type NotificationMinAggregateOutputType = {
-    id: number | null
-    title: string | null
-    message: string | null
-    read: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type NotificationMaxAggregateOutputType = {
-    id: number | null
-    title: string | null
-    message: string | null
-    read: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type NotificationCountAggregateOutputType = {
-    id: number
-    title: number
-    message: number
-    read: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type NotificationAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type NotificationSumAggregateInputType = {
-    id?: true
-  }
-
-  export type NotificationMinAggregateInputType = {
-    id?: true
-    title?: true
-    message?: true
-    read?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type NotificationMaxAggregateInputType = {
-    id?: true
-    title?: true
-    message?: true
-    read?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type NotificationCountAggregateInputType = {
-    id?: true
-    title?: true
-    message?: true
-    read?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Notification to aggregate.
+     * Choose, which related nodes to fetch as well
      */
-    where?: NotificationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Notifications to fetch.
-     */
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: NotificationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Notifications from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Notifications.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Notifications
-    **/
-    _count?: true | NotificationCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: NotificationAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: NotificationSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: NotificationMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: NotificationMaxAggregateInputType
-  }
-
-  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
-        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateNotification[P]>
-      : GetScalarType<T[P], AggregateNotification[P]>
-  }
-
-
-
-
-  export type NotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationWhereInput
-    orderBy?: NotificationOrderByWithAggregationInput | NotificationOrderByWithAggregationInput[]
-    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
-    having?: NotificationScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: NotificationCountAggregateInputType | true
-    _avg?: NotificationAvgAggregateInputType
-    _sum?: NotificationSumAggregateInputType
-    _min?: NotificationMinAggregateInputType
-    _max?: NotificationMaxAggregateInputType
-  }
-
-  export type NotificationGroupByOutputType = {
-    id: number
-    title: string
-    message: string
-    read: boolean
-    createdAt: Date
-    updatedAt: Date
-    _count: NotificationCountAggregateOutputType | null
-    _avg: NotificationAvgAggregateOutputType | null
-    _sum: NotificationSumAggregateOutputType | null
-    _min: NotificationMinAggregateOutputType | null
-    _max: NotificationMaxAggregateOutputType | null
-  }
-
-  type GetNotificationGroupByPayload<T extends NotificationGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<NotificationGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
-            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    message?: boolean
-    read?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["notification"]>
-
-  export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    message?: boolean
-    read?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["notification"]>
-
-  export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    message?: boolean
-    read?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["notification"]>
-
-  export type NotificationSelectScalar = {
-    id?: boolean
-    title?: boolean
-    message?: boolean
-    read?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "message" | "read" | "createdAt" | "updatedAt", ExtArgs["result"]["notification"]>
-
-  export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Notification"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      title: string
-      message: string
-      read: boolean
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["notification"]>
-    composites: {}
-  }
-
-  type NotificationGetPayload<S extends boolean | null | undefined | NotificationDefaultArgs> = $Result.GetResult<Prisma.$NotificationPayload, S>
-
-  type NotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<NotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: NotificationCountAggregateInputType | true
-    }
-
-  export interface NotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notification'], meta: { name: 'Notification' } }
-    /**
-     * Find zero or one Notification that matches the filter.
-     * @param {NotificationFindUniqueArgs} args - Arguments to find a Notification
-     * @example
-     * // Get one Notification
-     * const notification = await prisma.notification.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends NotificationFindUniqueArgs>(args: SelectSubset<T, NotificationFindUniqueArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {NotificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
-     * @example
-     * // Get one Notification
-     * const notification = await prisma.notification.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends NotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Notification that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationFindFirstArgs} args - Arguments to find a Notification
-     * @example
-     * // Get one Notification
-     * const notification = await prisma.notification.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends NotificationFindFirstArgs>(args?: SelectSubset<T, NotificationFindFirstArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Notification that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationFindFirstOrThrowArgs} args - Arguments to find a Notification
-     * @example
-     * // Get one Notification
-     * const notification = await prisma.notification.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends NotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Notifications that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Notifications
-     * const notifications = await prisma.notification.findMany()
-     * 
-     * // Get first 10 Notifications
-     * const notifications = await prisma.notification.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends NotificationFindManyArgs>(args?: SelectSubset<T, NotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Notification.
-     * @param {NotificationCreateArgs} args - Arguments to create a Notification.
-     * @example
-     * // Create one Notification
-     * const Notification = await prisma.notification.create({
-     *   data: {
-     *     // ... data to create a Notification
-     *   }
-     * })
-     * 
-     */
-    create<T extends NotificationCreateArgs>(args: SelectSubset<T, NotificationCreateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Notifications.
-     * @param {NotificationCreateManyArgs} args - Arguments to create many Notifications.
-     * @example
-     * // Create many Notifications
-     * const notification = await prisma.notification.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Notifications and returns the data saved in the database.
-     * @param {NotificationCreateManyAndReturnArgs} args - Arguments to create many Notifications.
-     * @example
-     * // Create many Notifications
-     * const notification = await prisma.notification.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Notifications and only return the `id`
-     * const notificationWithIdOnly = await prisma.notification.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends NotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Notification.
-     * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
-     * @example
-     * // Delete one Notification
-     * const Notification = await prisma.notification.delete({
-     *   where: {
-     *     // ... filter to delete one Notification
-     *   }
-     * })
-     * 
-     */
-    delete<T extends NotificationDeleteArgs>(args: SelectSubset<T, NotificationDeleteArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Notification.
-     * @param {NotificationUpdateArgs} args - Arguments to update one Notification.
-     * @example
-     * // Update one Notification
-     * const notification = await prisma.notification.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends NotificationUpdateArgs>(args: SelectSubset<T, NotificationUpdateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Notifications.
-     * @param {NotificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
-     * @example
-     * // Delete a few Notifications
-     * const { count } = await prisma.notification.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends NotificationDeleteManyArgs>(args?: SelectSubset<T, NotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Notifications.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Notifications
-     * const notification = await prisma.notification.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Notifications and returns the data updated in the database.
-     * @param {NotificationUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
-     * @example
-     * // Update many Notifications
-     * const notification = await prisma.notification.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Notifications and only return the `id`
-     * const notificationWithIdOnly = await prisma.notification.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends NotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Notification.
-     * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
-     * @example
-     * // Update or create a Notification
-     * const notification = await prisma.notification.upsert({
-     *   create: {
-     *     // ... data to create a Notification
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Notification we want to update
-     *   }
-     * })
-     */
-    upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Notifications.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationCountArgs} args - Arguments to filter Notifications to count.
-     * @example
-     * // Count the number of Notifications
-     * const count = await prisma.notification.count({
-     *   where: {
-     *     // ... the filter for the Notifications we want to count
-     *   }
-     * })
-    **/
-    count<T extends NotificationCountArgs>(
-      args?: Subset<T, NotificationCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Notification.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
-
-    /**
-     * Group by Notification.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {NotificationGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends NotificationGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: NotificationGroupByArgs['orderBy'] }
-        : { orderBy?: NotificationGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, NotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Notification model
-   */
-  readonly fields: NotificationFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Notification.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Notification model
-   */
-  interface NotificationFieldRefs {
-    readonly id: FieldRef<"Notification", 'Int'>
-    readonly title: FieldRef<"Notification", 'String'>
-    readonly message: FieldRef<"Notification", 'String'>
-    readonly read: FieldRef<"Notification", 'Boolean'>
-    readonly createdAt: FieldRef<"Notification", 'DateTime'>
-    readonly updatedAt: FieldRef<"Notification", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Notification findUnique
-   */
-  export type NotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Filter, which Notification to fetch.
-     */
-    where: NotificationWhereUniqueInput
-  }
-
-  /**
-   * Notification findUniqueOrThrow
-   */
-  export type NotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Filter, which Notification to fetch.
-     */
-    where: NotificationWhereUniqueInput
-  }
-
-  /**
-   * Notification findFirst
-   */
-  export type NotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Filter, which Notification to fetch.
-     */
-    where?: NotificationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Notifications to fetch.
-     */
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Notifications.
-     */
-    cursor?: NotificationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Notifications from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Notifications.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Notifications.
-     */
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
-  }
-
-  /**
-   * Notification findFirstOrThrow
-   */
-  export type NotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Filter, which Notification to fetch.
-     */
-    where?: NotificationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Notifications to fetch.
-     */
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Notifications.
-     */
-    cursor?: NotificationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Notifications from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Notifications.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Notifications.
-     */
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
-  }
-
-  /**
-   * Notification findMany
-   */
-  export type NotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Filter, which Notifications to fetch.
-     */
-    where?: NotificationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Notifications to fetch.
-     */
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Notifications.
-     */
-    cursor?: NotificationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Notifications from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Notifications.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Notifications.
-     */
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
-  }
-
-  /**
-   * Notification create
-   */
-  export type NotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * The data needed to create a Notification.
-     */
-    data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
-  }
-
-  /**
-   * Notification createMany
-   */
-  export type NotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Notifications.
-     */
-    data: NotificationCreateManyInput | NotificationCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Notification createManyAndReturn
-   */
-  export type NotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * The data used to create many Notifications.
-     */
-    data: NotificationCreateManyInput | NotificationCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Notification update
-   */
-  export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * The data needed to update a Notification.
-     */
-    data: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
-    /**
-     * Choose, which Notification to update.
-     */
-    where: NotificationWhereUniqueInput
-  }
-
-  /**
-   * Notification updateMany
-   */
-  export type NotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Notifications.
-     */
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
-    /**
-     * Filter which Notifications to update
-     */
-    where?: NotificationWhereInput
-    /**
-     * Limit how many Notifications to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Notification updateManyAndReturn
-   */
-  export type NotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * The data used to update Notifications.
-     */
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
-    /**
-     * Filter which Notifications to update
-     */
-    where?: NotificationWhereInput
-    /**
-     * Limit how many Notifications to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Notification upsert
-   */
-  export type NotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * The filter to search for the Notification to update in case it exists.
-     */
-    where: NotificationWhereUniqueInput
-    /**
-     * In case the Notification found by the `where` argument doesn't exist, create a new Notification with this data.
-     */
-    create: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
-    /**
-     * In case the Notification was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
-  }
-
-  /**
-   * Notification delete
-   */
-  export type NotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Filter which Notification to delete.
-     */
-    where: NotificationWhereUniqueInput
-  }
-
-  /**
-   * Notification deleteMany
-   */
-  export type NotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Notifications to delete
-     */
-    where?: NotificationWhereInput
-    /**
-     * Limit how many Notifications to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Notification without action
-   */
-  export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
+    include?: TransactionInclude<ExtArgs> | null
   }
 
 
@@ -8240,34 +7172,22 @@ export namespace Prisma {
 
   export type AggregateLog = {
     _count: LogCountAggregateOutputType | null
-    _avg: LogAvgAggregateOutputType | null
-    _sum: LogSumAggregateOutputType | null
     _min: LogMinAggregateOutputType | null
     _max: LogMaxAggregateOutputType | null
   }
 
-  export type LogAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type LogSumAggregateOutputType = {
-    id: number | null
-  }
-
   export type LogMinAggregateOutputType = {
-    id: number | null
-    level: string | null
+    id: string | null
+    level: $Enums.LogLevel | null
     message: string | null
-    context: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type LogMaxAggregateOutputType = {
-    id: number | null
-    level: string | null
+    id: string | null
+    level: $Enums.LogLevel | null
     message: string | null
-    context: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8276,26 +7196,17 @@ export namespace Prisma {
     id: number
     level: number
     message: number
-    context: number
+    meta: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
-  export type LogAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type LogSumAggregateInputType = {
-    id?: true
-  }
-
   export type LogMinAggregateInputType = {
     id?: true
     level?: true
     message?: true
-    context?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8304,7 +7215,6 @@ export namespace Prisma {
     id?: true
     level?: true
     message?: true
-    context?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8313,7 +7223,7 @@ export namespace Prisma {
     id?: true
     level?: true
     message?: true
-    context?: true
+    meta?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -8357,18 +7267,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: LogAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: LogSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: LogMinAggregateInputType
@@ -8399,22 +7297,18 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: LogCountAggregateInputType | true
-    _avg?: LogAvgAggregateInputType
-    _sum?: LogSumAggregateInputType
     _min?: LogMinAggregateInputType
     _max?: LogMaxAggregateInputType
   }
 
   export type LogGroupByOutputType = {
-    id: number
-    level: string
+    id: string
+    level: $Enums.LogLevel
     message: string
-    context: string | null
+    meta: JsonValue | null
     createdAt: Date
     updatedAt: Date
     _count: LogCountAggregateOutputType | null
-    _avg: LogAvgAggregateOutputType | null
-    _sum: LogSumAggregateOutputType | null
     _min: LogMinAggregateOutputType | null
     _max: LogMaxAggregateOutputType | null
   }
@@ -8437,7 +7331,7 @@ export namespace Prisma {
     id?: boolean
     level?: boolean
     message?: boolean
-    context?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["log"]>
@@ -8446,7 +7340,7 @@ export namespace Prisma {
     id?: boolean
     level?: boolean
     message?: boolean
-    context?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["log"]>
@@ -8455,7 +7349,7 @@ export namespace Prisma {
     id?: boolean
     level?: boolean
     message?: boolean
-    context?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["log"]>
@@ -8464,21 +7358,21 @@ export namespace Prisma {
     id?: boolean
     level?: boolean
     message?: boolean
-    context?: boolean
+    meta?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type LogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "level" | "message" | "context" | "createdAt" | "updatedAt", ExtArgs["result"]["log"]>
+  export type LogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "level" | "message" | "meta" | "createdAt" | "updatedAt", ExtArgs["result"]["log"]>
 
   export type $LogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Log"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      id: number
-      level: string
+      id: string
+      level: $Enums.LogLevel
       message: string
-      context: string | null
+      meta: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["log"]>
@@ -8904,10 +7798,10 @@ export namespace Prisma {
    * Fields of the Log model
    */
   interface LogFieldRefs {
-    readonly id: FieldRef<"Log", 'Int'>
-    readonly level: FieldRef<"Log", 'String'>
+    readonly id: FieldRef<"Log", 'String'>
+    readonly level: FieldRef<"Log", 'LogLevel'>
     readonly message: FieldRef<"Log", 'String'>
-    readonly context: FieldRef<"Log", 'String'>
+    readonly meta: FieldRef<"Log", 'Json'>
     readonly createdAt: FieldRef<"Log", 'DateTime'>
     readonly updatedAt: FieldRef<"Log", 'DateTime'>
   }
@@ -9301,9 +8195,9 @@ export namespace Prisma {
     description: 'description',
     price: 'price',
     createdBy: 'createdBy',
-    status: 'status',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    trackStock: 'trackStock'
   };
 
   export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -9314,7 +8208,8 @@ export namespace Prisma {
     productId: 'productId',
     quantity: 'quantity',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    alertAt: 'alertAt'
   };
 
   export type ProductStockScalarFieldEnum = (typeof ProductStockScalarFieldEnum)[keyof typeof ProductStockScalarFieldEnum]
@@ -9348,10 +8243,10 @@ export namespace Prisma {
   export const TransactionScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    type: 'type',
     status: 'status',
     amount: 'amount',
     note: 'note',
+    orderId: 'orderId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9359,23 +8254,11 @@ export namespace Prisma {
   export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
 
 
-  export const NotificationScalarFieldEnum: {
-    id: 'id',
-    title: 'title',
-    message: 'message',
-    read: 'read',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
-
-
   export const LogScalarFieldEnum: {
     id: 'id',
     level: 'level',
     message: 'message',
-    context: 'context',
+    meta: 'meta',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9389,6 +8272,14 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -9407,23 +8298,18 @@ export namespace Prisma {
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
   /**
    * Field references
    */
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
 
 
   /**
@@ -9455,16 +8341,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'ProductStatus'
+   * Reference to a field of type 'Int'
    */
-  export type EnumProductStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductStatus'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
   /**
-   * Reference to a field of type 'ProductStatus[]'
+   * Reference to a field of type 'Int[]'
    */
-  export type ListEnumProductStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProductStatus[]'>
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -9483,6 +8369,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'OrderStatus'
    */
   export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus'>
@@ -9493,20 +8386,6 @@ export namespace Prisma {
    * Reference to a field of type 'OrderStatus[]'
    */
   export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'TransactionType'
-   */
-  export type EnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType'>
-    
-
-
-  /**
-   * Reference to a field of type 'TransactionType[]'
-   */
-  export type ListEnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType[]'>
     
 
 
@@ -9525,9 +8404,30 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'LogLevel'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type EnumLogLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LogLevel'>
+    
+
+
+  /**
+   * Reference to a field of type 'LogLevel[]'
+   */
+  export type ListEnumLogLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LogLevel[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
   /**
    * Deep Input Types
@@ -9538,15 +8438,15 @@ export namespace Prisma {
     AND?: ProductWhereInput | ProductWhereInput[]
     OR?: ProductWhereInput[]
     NOT?: ProductWhereInput | ProductWhereInput[]
-    id?: IntFilter<"Product"> | number
+    id?: StringFilter<"Product"> | string
     name?: StringFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     price?: FloatFilter<"Product"> | number
     createdBy?: IntFilter<"Product"> | number
-    status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
-    stocks?: ProductStockListRelationFilter
+    trackStock?: BoolFilter<"Product"> | boolean
+    stocks?: XOR<ProductStockNullableScalarRelationFilter, ProductStockWhereInput> | null
     orderItems?: OrderItemListRelationFilter
   }
 
@@ -9556,15 +8456,15 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     price?: SortOrder
     createdBy?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    stocks?: ProductStockOrderByRelationAggregateInput
+    trackStock?: SortOrder
+    stocks?: ProductStockOrderByWithRelationInput
     orderItems?: OrderItemOrderByRelationAggregateInput
   }
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: ProductWhereInput | ProductWhereInput[]
     OR?: ProductWhereInput[]
     NOT?: ProductWhereInput | ProductWhereInput[]
@@ -9572,10 +8472,10 @@ export namespace Prisma {
     description?: StringNullableFilter<"Product"> | string | null
     price?: FloatFilter<"Product"> | number
     createdBy?: IntFilter<"Product"> | number
-    status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
-    stocks?: ProductStockListRelationFilter
+    trackStock?: BoolFilter<"Product"> | boolean
+    stocks?: XOR<ProductStockNullableScalarRelationFilter, ProductStockWhereInput> | null
     orderItems?: OrderItemListRelationFilter
   }, "id">
 
@@ -9585,9 +8485,9 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     price?: SortOrder
     createdBy?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    trackStock?: SortOrder
     _count?: ProductCountOrderByAggregateInput
     _avg?: ProductAvgOrderByAggregateInput
     _max?: ProductMaxOrderByAggregateInput
@@ -9599,25 +8499,26 @@ export namespace Prisma {
     AND?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
     OR?: ProductScalarWhereWithAggregatesInput[]
     NOT?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Product"> | number
+    id?: StringWithAggregatesFilter<"Product"> | string
     name?: StringWithAggregatesFilter<"Product"> | string
     description?: StringNullableWithAggregatesFilter<"Product"> | string | null
     price?: FloatWithAggregatesFilter<"Product"> | number
     createdBy?: IntWithAggregatesFilter<"Product"> | number
-    status?: EnumProductStatusWithAggregatesFilter<"Product"> | $Enums.ProductStatus
     createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
+    trackStock?: BoolWithAggregatesFilter<"Product"> | boolean
   }
 
   export type ProductStockWhereInput = {
     AND?: ProductStockWhereInput | ProductStockWhereInput[]
     OR?: ProductStockWhereInput[]
     NOT?: ProductStockWhereInput | ProductStockWhereInput[]
-    id?: IntFilter<"ProductStock"> | number
-    productId?: IntFilter<"ProductStock"> | number
+    id?: StringFilter<"ProductStock"> | string
+    productId?: StringFilter<"ProductStock"> | string
     quantity?: IntFilter<"ProductStock"> | number
     createdAt?: DateTimeFilter<"ProductStock"> | Date | string
     updatedAt?: DateTimeFilter<"ProductStock"> | Date | string
+    alertAt?: IntFilter<"ProductStock"> | number
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
   }
 
@@ -9627,20 +8528,22 @@ export namespace Prisma {
     quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    alertAt?: SortOrder
     product?: ProductOrderByWithRelationInput
   }
 
   export type ProductStockWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
+    productId?: string
     AND?: ProductStockWhereInput | ProductStockWhereInput[]
     OR?: ProductStockWhereInput[]
     NOT?: ProductStockWhereInput | ProductStockWhereInput[]
-    productId?: IntFilter<"ProductStock"> | number
     quantity?: IntFilter<"ProductStock"> | number
     createdAt?: DateTimeFilter<"ProductStock"> | Date | string
     updatedAt?: DateTimeFilter<"ProductStock"> | Date | string
+    alertAt?: IntFilter<"ProductStock"> | number
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
-  }, "id">
+  }, "id" | "productId">
 
   export type ProductStockOrderByWithAggregationInput = {
     id?: SortOrder
@@ -9648,6 +8551,7 @@ export namespace Prisma {
     quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    alertAt?: SortOrder
     _count?: ProductStockCountOrderByAggregateInput
     _avg?: ProductStockAvgOrderByAggregateInput
     _max?: ProductStockMaxOrderByAggregateInput
@@ -9659,52 +8563,56 @@ export namespace Prisma {
     AND?: ProductStockScalarWhereWithAggregatesInput | ProductStockScalarWhereWithAggregatesInput[]
     OR?: ProductStockScalarWhereWithAggregatesInput[]
     NOT?: ProductStockScalarWhereWithAggregatesInput | ProductStockScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"ProductStock"> | number
-    productId?: IntWithAggregatesFilter<"ProductStock"> | number
+    id?: StringWithAggregatesFilter<"ProductStock"> | string
+    productId?: StringWithAggregatesFilter<"ProductStock"> | string
     quantity?: IntWithAggregatesFilter<"ProductStock"> | number
     createdAt?: DateTimeWithAggregatesFilter<"ProductStock"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProductStock"> | Date | string
+    alertAt?: IntWithAggregatesFilter<"ProductStock"> | number
   }
 
   export type OrderWhereInput = {
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
-    id?: IntFilter<"Order"> | number
-    userId?: IntFilter<"Order"> | number
+    id?: StringFilter<"Order"> | string
+    userId?: StringNullableFilter<"Order"> | string | null
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     total?: FloatFilter<"Order"> | number
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     orderItems?: OrderItemListRelationFilter
+    transactions?: TransactionListRelationFilter
   }
 
   export type OrderOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     status?: SortOrder
     total?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     orderItems?: OrderItemOrderByRelationAggregateInput
+    transactions?: TransactionOrderByRelationAggregateInput
   }
 
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
-    userId?: IntFilter<"Order"> | number
+    userId?: StringNullableFilter<"Order"> | string | null
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     total?: FloatFilter<"Order"> | number
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     orderItems?: OrderItemListRelationFilter
+    transactions?: TransactionListRelationFilter
   }, "id">
 
   export type OrderOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     status?: SortOrder
     total?: SortOrder
     createdAt?: SortOrder
@@ -9720,8 +8628,8 @@ export namespace Prisma {
     AND?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
     OR?: OrderScalarWhereWithAggregatesInput[]
     NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Order"> | number
-    userId?: IntWithAggregatesFilter<"Order"> | number
+    id?: StringWithAggregatesFilter<"Order"> | string
+    userId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
     total?: FloatWithAggregatesFilter<"Order"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
@@ -9732,9 +8640,9 @@ export namespace Prisma {
     AND?: OrderItemWhereInput | OrderItemWhereInput[]
     OR?: OrderItemWhereInput[]
     NOT?: OrderItemWhereInput | OrderItemWhereInput[]
-    id?: IntFilter<"OrderItem"> | number
-    orderId?: IntFilter<"OrderItem"> | number
-    productId?: IntFilter<"OrderItem"> | number
+    id?: StringFilter<"OrderItem"> | string
+    orderId?: StringFilter<"OrderItem"> | string
+    productId?: StringFilter<"OrderItem"> | string
     quantity?: IntFilter<"OrderItem"> | number
     price?: FloatFilter<"OrderItem"> | number
     createdAt?: DateTimeFilter<"OrderItem"> | Date | string
@@ -9756,12 +8664,12 @@ export namespace Prisma {
   }
 
   export type OrderItemWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: OrderItemWhereInput | OrderItemWhereInput[]
     OR?: OrderItemWhereInput[]
     NOT?: OrderItemWhereInput | OrderItemWhereInput[]
-    orderId?: IntFilter<"OrderItem"> | number
-    productId?: IntFilter<"OrderItem"> | number
+    orderId?: StringFilter<"OrderItem"> | string
+    productId?: StringFilter<"OrderItem"> | string
     quantity?: IntFilter<"OrderItem"> | number
     price?: FloatFilter<"OrderItem"> | number
     createdAt?: DateTimeFilter<"OrderItem"> | Date | string
@@ -9789,9 +8697,9 @@ export namespace Prisma {
     AND?: OrderItemScalarWhereWithAggregatesInput | OrderItemScalarWhereWithAggregatesInput[]
     OR?: OrderItemScalarWhereWithAggregatesInput[]
     NOT?: OrderItemScalarWhereWithAggregatesInput | OrderItemScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"OrderItem"> | number
-    orderId?: IntWithAggregatesFilter<"OrderItem"> | number
-    productId?: IntWithAggregatesFilter<"OrderItem"> | number
+    id?: StringWithAggregatesFilter<"OrderItem"> | string
+    orderId?: StringWithAggregatesFilter<"OrderItem"> | string
+    productId?: StringWithAggregatesFilter<"OrderItem"> | string
     quantity?: IntWithAggregatesFilter<"OrderItem"> | number
     price?: FloatWithAggregatesFilter<"OrderItem"> | number
     createdAt?: DateTimeWithAggregatesFilter<"OrderItem"> | Date | string
@@ -9802,48 +8710,51 @@ export namespace Prisma {
     AND?: TransactionWhereInput | TransactionWhereInput[]
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
-    id?: IntFilter<"Transaction"> | number
-    userId?: IntFilter<"Transaction"> | number
-    type?: EnumTransactionTypeFilter<"Transaction"> | $Enums.TransactionType
+    id?: StringFilter<"Transaction"> | string
+    userId?: StringNullableFilter<"Transaction"> | string | null
     status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
     amount?: FloatFilter<"Transaction"> | number
     note?: StringNullableFilter<"Transaction"> | string | null
+    orderId?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    order?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
   }
 
   export type TransactionOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
-    type?: SortOrder
+    userId?: SortOrderInput | SortOrder
     status?: SortOrder
     amount?: SortOrder
     note?: SortOrderInput | SortOrder
+    orderId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    order?: OrderOrderByWithRelationInput
   }
 
   export type TransactionWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: TransactionWhereInput | TransactionWhereInput[]
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
-    userId?: IntFilter<"Transaction"> | number
-    type?: EnumTransactionTypeFilter<"Transaction"> | $Enums.TransactionType
+    userId?: StringNullableFilter<"Transaction"> | string | null
     status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
     amount?: FloatFilter<"Transaction"> | number
     note?: StringNullableFilter<"Transaction"> | string | null
+    orderId?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    order?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
   }, "id">
 
   export type TransactionOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
-    type?: SortOrder
+    userId?: SortOrderInput | SortOrder
     status?: SortOrder
     amount?: SortOrder
     note?: SortOrderInput | SortOrder
+    orderId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TransactionCountOrderByAggregateInput
@@ -9857,83 +8768,24 @@ export namespace Prisma {
     AND?: TransactionScalarWhereWithAggregatesInput | TransactionScalarWhereWithAggregatesInput[]
     OR?: TransactionScalarWhereWithAggregatesInput[]
     NOT?: TransactionScalarWhereWithAggregatesInput | TransactionScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Transaction"> | number
-    userId?: IntWithAggregatesFilter<"Transaction"> | number
-    type?: EnumTransactionTypeWithAggregatesFilter<"Transaction"> | $Enums.TransactionType
+    id?: StringWithAggregatesFilter<"Transaction"> | string
+    userId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     status?: EnumTransactionStatusWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus
     amount?: FloatWithAggregatesFilter<"Transaction"> | number
     note?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    orderId?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
-  }
-
-  export type NotificationWhereInput = {
-    AND?: NotificationWhereInput | NotificationWhereInput[]
-    OR?: NotificationWhereInput[]
-    NOT?: NotificationWhereInput | NotificationWhereInput[]
-    id?: IntFilter<"Notification"> | number
-    title?: StringFilter<"Notification"> | string
-    message?: StringFilter<"Notification"> | string
-    read?: BoolFilter<"Notification"> | boolean
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
-    updatedAt?: DateTimeFilter<"Notification"> | Date | string
-  }
-
-  export type NotificationOrderByWithRelationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    message?: SortOrder
-    read?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type NotificationWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: NotificationWhereInput | NotificationWhereInput[]
-    OR?: NotificationWhereInput[]
-    NOT?: NotificationWhereInput | NotificationWhereInput[]
-    title?: StringFilter<"Notification"> | string
-    message?: StringFilter<"Notification"> | string
-    read?: BoolFilter<"Notification"> | boolean
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
-    updatedAt?: DateTimeFilter<"Notification"> | Date | string
-  }, "id">
-
-  export type NotificationOrderByWithAggregationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    message?: SortOrder
-    read?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: NotificationCountOrderByAggregateInput
-    _avg?: NotificationAvgOrderByAggregateInput
-    _max?: NotificationMaxOrderByAggregateInput
-    _min?: NotificationMinOrderByAggregateInput
-    _sum?: NotificationSumOrderByAggregateInput
-  }
-
-  export type NotificationScalarWhereWithAggregatesInput = {
-    AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
-    OR?: NotificationScalarWhereWithAggregatesInput[]
-    NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Notification"> | number
-    title?: StringWithAggregatesFilter<"Notification"> | string
-    message?: StringWithAggregatesFilter<"Notification"> | string
-    read?: BoolWithAggregatesFilter<"Notification"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
   export type LogWhereInput = {
     AND?: LogWhereInput | LogWhereInput[]
     OR?: LogWhereInput[]
     NOT?: LogWhereInput | LogWhereInput[]
-    id?: IntFilter<"Log"> | number
-    level?: StringFilter<"Log"> | string
+    id?: StringFilter<"Log"> | string
+    level?: EnumLogLevelFilter<"Log"> | $Enums.LogLevel
     message?: StringFilter<"Log"> | string
-    context?: StringNullableFilter<"Log"> | string | null
+    meta?: JsonNullableFilter<"Log">
     createdAt?: DateTimeFilter<"Log"> | Date | string
     updatedAt?: DateTimeFilter<"Log"> | Date | string
   }
@@ -9942,19 +8794,19 @@ export namespace Prisma {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type LogWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     AND?: LogWhereInput | LogWhereInput[]
     OR?: LogWhereInput[]
     NOT?: LogWhereInput | LogWhereInput[]
-    level?: StringFilter<"Log"> | string
+    level?: EnumLogLevelFilter<"Log"> | $Enums.LogLevel
     message?: StringFilter<"Log"> | string
-    context?: StringNullableFilter<"Log"> | string | null
+    meta?: JsonNullableFilter<"Log">
     createdAt?: DateTimeFilter<"Log"> | Date | string
     updatedAt?: DateTimeFilter<"Log"> | Date | string
   }, "id">
@@ -9963,203 +8815,220 @@ export namespace Prisma {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrderInput | SortOrder
+    meta?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: LogCountOrderByAggregateInput
-    _avg?: LogAvgOrderByAggregateInput
     _max?: LogMaxOrderByAggregateInput
     _min?: LogMinOrderByAggregateInput
-    _sum?: LogSumOrderByAggregateInput
   }
 
   export type LogScalarWhereWithAggregatesInput = {
     AND?: LogScalarWhereWithAggregatesInput | LogScalarWhereWithAggregatesInput[]
     OR?: LogScalarWhereWithAggregatesInput[]
     NOT?: LogScalarWhereWithAggregatesInput | LogScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Log"> | number
-    level?: StringWithAggregatesFilter<"Log"> | string
+    id?: StringWithAggregatesFilter<"Log"> | string
+    level?: EnumLogLevelWithAggregatesFilter<"Log"> | $Enums.LogLevel
     message?: StringWithAggregatesFilter<"Log"> | string
-    context?: StringNullableWithAggregatesFilter<"Log"> | string | null
+    meta?: JsonNullableWithAggregatesFilter<"Log">
     createdAt?: DateTimeWithAggregatesFilter<"Log"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Log"> | Date | string
   }
 
   export type ProductCreateInput = {
+    id: string
     name: string
     description?: string | null
     price: number
     createdBy: number
-    status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    stocks?: ProductStockCreateNestedManyWithoutProductInput
+    trackStock?: boolean
+    stocks?: ProductStockCreateNestedOneWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateInput = {
-    id?: number
+    id: string
     name: string
     description?: string | null
     price: number
     createdBy: number
-    status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    stocks?: ProductStockUncheckedCreateNestedManyWithoutProductInput
+    trackStock?: boolean
+    stocks?: ProductStockUncheckedCreateNestedOneWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: IntFieldUpdateOperationsInput | number
-    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stocks?: ProductStockUpdateManyWithoutProductNestedInput
+    trackStock?: BoolFieldUpdateOperationsInput | boolean
+    stocks?: ProductStockUpdateOneWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: IntFieldUpdateOperationsInput | number
-    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stocks?: ProductStockUncheckedUpdateManyWithoutProductNestedInput
+    trackStock?: BoolFieldUpdateOperationsInput | boolean
+    stocks?: ProductStockUncheckedUpdateOneWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateManyInput = {
-    id?: number
+    id: string
     name: string
     description?: string | null
     price: number
     createdBy: number
-    status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    trackStock?: boolean
   }
 
   export type ProductUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: IntFieldUpdateOperationsInput | number
-    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackStock?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: IntFieldUpdateOperationsInput | number
-    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackStock?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProductStockCreateInput = {
+    id: string
     quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    alertAt?: number
     product: ProductCreateNestedOneWithoutStocksInput
   }
 
   export type ProductStockUncheckedCreateInput = {
-    id?: number
-    productId: number
+    id: string
+    productId: string
     quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    alertAt?: number
   }
 
   export type ProductStockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alertAt?: IntFieldUpdateOperationsInput | number
     product?: ProductUpdateOneRequiredWithoutStocksNestedInput
   }
 
   export type ProductStockUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    productId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alertAt?: IntFieldUpdateOperationsInput | number
   }
 
   export type ProductStockCreateManyInput = {
-    id?: number
-    productId: number
+    id: string
+    productId: string
     quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    alertAt?: number
   }
 
   export type ProductStockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alertAt?: IntFieldUpdateOperationsInput | number
   }
 
   export type ProductStockUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    productId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alertAt?: IntFieldUpdateOperationsInput | number
   }
 
   export type OrderCreateInput = {
-    userId: number
+    id: string
+    userId?: string | null
     status?: $Enums.OrderStatus
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
     orderItems?: OrderItemCreateNestedManyWithoutOrderInput
+    transactions?: TransactionCreateNestedManyWithoutOrderInput
   }
 
   export type OrderUncheckedCreateInput = {
-    id?: number
-    userId: number
+    id: string
+    userId?: string | null
     status?: $Enums.OrderStatus
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
+    transactions?: TransactionUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type OrderUpdateInput = {
-    userId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderItems?: OrderItemUpdateManyWithoutOrderNestedInput
+    transactions?: TransactionUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+    transactions?: TransactionUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderCreateManyInput = {
-    id?: number
-    userId: number
+    id: string
+    userId?: string | null
     status?: $Enums.OrderStatus
     total: number
     createdAt?: Date | string
@@ -10167,7 +9036,8 @@ export namespace Prisma {
   }
 
   export type OrderUpdateManyMutationInput = {
-    userId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10175,8 +9045,8 @@ export namespace Prisma {
   }
 
   export type OrderUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10184,6 +9054,7 @@ export namespace Prisma {
   }
 
   export type OrderItemCreateInput = {
+    id: string
     quantity: number
     price: number
     createdAt?: Date | string
@@ -10193,9 +9064,9 @@ export namespace Prisma {
   }
 
   export type OrderItemUncheckedCreateInput = {
-    id?: number
-    orderId: number
-    productId: number
+    id: string
+    orderId: string
+    productId: string
     quantity: number
     price: number
     createdAt?: Date | string
@@ -10203,6 +9074,7 @@ export namespace Prisma {
   }
 
   export type OrderItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10212,9 +9084,9 @@ export namespace Prisma {
   }
 
   export type OrderItemUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    orderId?: IntFieldUpdateOperationsInput | number
-    productId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10222,9 +9094,9 @@ export namespace Prisma {
   }
 
   export type OrderItemCreateManyInput = {
-    id?: number
-    orderId: number
-    productId: number
+    id: string
+    orderId: string
+    productId: string
     quantity: number
     price: number
     createdAt?: Date | string
@@ -10232,6 +9104,7 @@ export namespace Prisma {
   }
 
   export type OrderItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10239,9 +9112,9 @@ export namespace Prisma {
   }
 
   export type OrderItemUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    orderId?: IntFieldUpdateOperationsInput | number
-    productId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10249,61 +9122,63 @@ export namespace Prisma {
   }
 
   export type TransactionCreateInput = {
-    userId: number
-    type: $Enums.TransactionType
+    id: string
+    userId?: string | null
     status: $Enums.TransactionStatus
     amount: number
     note?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    order?: OrderCreateNestedOneWithoutTransactionsInput
   }
 
   export type TransactionUncheckedCreateInput = {
-    id?: number
-    userId: number
-    type: $Enums.TransactionType
+    id: string
+    userId?: string | null
     status: $Enums.TransactionStatus
     amount: number
     note?: string | null
+    orderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type TransactionUpdateInput = {
-    userId?: IntFieldUpdateOperationsInput | number
-    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     amount?: FloatFieldUpdateOperationsInput | number
     note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    order?: OrderUpdateOneWithoutTransactionsNestedInput
   }
 
   export type TransactionUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     amount?: FloatFieldUpdateOperationsInput | number
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionCreateManyInput = {
-    id?: number
-    userId: number
-    type: $Enums.TransactionType
+    id: string
+    userId?: string | null
     status: $Enums.TransactionStatus
     amount: number
     note?: string | null
+    orderId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type TransactionUpdateManyMutationInput = {
-    userId?: IntFieldUpdateOperationsInput | number
-    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     amount?: FloatFieldUpdateOperationsInput | number
     note?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10312,145 +9187,77 @@ export namespace Prisma {
   }
 
   export type TransactionUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
-    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     amount?: FloatFieldUpdateOperationsInput | number
     note?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationCreateInput = {
-    title: string
-    message: string
-    read?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationUncheckedCreateInput = {
-    id?: number
-    title: string
-    message: string
-    read?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationUpdateInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    read?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    read?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationCreateManyInput = {
-    id?: number
-    title: string
-    message: string
-    read?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NotificationUpdateManyMutationInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    read?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    read?: BoolFieldUpdateOperationsInput | boolean
+    orderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogCreateInput = {
-    level: string
+    id: string
+    level?: $Enums.LogLevel
     message: string
-    context?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type LogUncheckedCreateInput = {
-    id?: number
-    level: string
+    id: string
+    level?: $Enums.LogLevel
     message: string
-    context?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type LogUpdateInput = {
-    level?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    level?: EnumLogLevelFieldUpdateOperationsInput | $Enums.LogLevel
     message?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    level?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    level?: EnumLogLevelFieldUpdateOperationsInput | $Enums.LogLevel
     message?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogCreateManyInput = {
-    id?: number
-    level: string
+    id: string
+    level?: $Enums.LogLevel
     message: string
-    context?: string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type LogUpdateManyMutationInput = {
-    level?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    level?: EnumLogLevelFieldUpdateOperationsInput | $Enums.LogLevel
     message?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    level?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    level?: EnumLogLevelFieldUpdateOperationsInput | $Enums.LogLevel
     message?: StringFieldUpdateOperationsInput | string
-    context?: NullableStringFieldUpdateOperationsInput | string | null
+    meta?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -10494,11 +9301,15 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type EnumProductStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProductStatus | EnumProductStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProductStatusFilter<$PrismaModel> | $Enums.ProductStatus
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -10512,10 +9323,14 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type ProductStockListRelationFilter = {
-    every?: ProductStockWhereInput
-    some?: ProductStockWhereInput
-    none?: ProductStockWhereInput
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type ProductStockNullableScalarRelationFilter = {
+    is?: ProductStockWhereInput | null
+    isNot?: ProductStockWhereInput | null
   }
 
   export type OrderItemListRelationFilter = {
@@ -10529,10 +9344,6 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type ProductStockOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type OrderItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -10543,13 +9354,12 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     createdBy?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    trackStock?: SortOrder
   }
 
   export type ProductAvgOrderByAggregateInput = {
-    id?: SortOrder
     price?: SortOrder
     createdBy?: SortOrder
   }
@@ -10560,9 +9370,9 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     createdBy?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    trackStock?: SortOrder
   }
 
   export type ProductMinOrderByAggregateInput = {
@@ -10571,31 +9381,14 @@ export namespace Prisma {
     description?: SortOrder
     price?: SortOrder
     createdBy?: SortOrder
-    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    trackStock?: SortOrder
   }
 
   export type ProductSumOrderByAggregateInput = {
-    id?: SortOrder
     price?: SortOrder
     createdBy?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -10650,14 +9443,20 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type EnumProductStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProductStatus | EnumProductStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProductStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProductStatus
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumProductStatusFilter<$PrismaModel>
-    _max?: NestedEnumProductStatusFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -10674,6 +9473,14 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type ProductScalarRelationFilter = {
     is?: ProductWhereInput
     isNot?: ProductWhereInput
@@ -10685,12 +9492,12 @@ export namespace Prisma {
     quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    alertAt?: SortOrder
   }
 
   export type ProductStockAvgOrderByAggregateInput = {
-    id?: SortOrder
-    productId?: SortOrder
     quantity?: SortOrder
+    alertAt?: SortOrder
   }
 
   export type ProductStockMaxOrderByAggregateInput = {
@@ -10699,6 +9506,7 @@ export namespace Prisma {
     quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    alertAt?: SortOrder
   }
 
   export type ProductStockMinOrderByAggregateInput = {
@@ -10707,12 +9515,12 @@ export namespace Prisma {
     quantity?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    alertAt?: SortOrder
   }
 
   export type ProductStockSumOrderByAggregateInput = {
-    id?: SortOrder
-    productId?: SortOrder
     quantity?: SortOrder
+    alertAt?: SortOrder
   }
 
   export type EnumOrderStatusFilter<$PrismaModel = never> = {
@@ -10720,6 +9528,16 @@ export namespace Prisma {
     in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
+  }
+
+  export type TransactionListRelationFilter = {
+    every?: TransactionWhereInput
+    some?: TransactionWhereInput
+    none?: TransactionWhereInput
+  }
+
+  export type TransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type OrderCountOrderByAggregateInput = {
@@ -10732,8 +9550,6 @@ export namespace Prisma {
   }
 
   export type OrderAvgOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
     total?: SortOrder
   }
 
@@ -10756,8 +9572,6 @@ export namespace Prisma {
   }
 
   export type OrderSumOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
     total?: SortOrder
   }
 
@@ -10787,9 +9601,6 @@ export namespace Prisma {
   }
 
   export type OrderItemAvgOrderByAggregateInput = {
-    id?: SortOrder
-    orderId?: SortOrder
-    productId?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
   }
@@ -10815,18 +9626,8 @@ export namespace Prisma {
   }
 
   export type OrderItemSumOrderByAggregateInput = {
-    id?: SortOrder
-    orderId?: SortOrder
-    productId?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
-  }
-
-  export type EnumTransactionTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
   }
 
   export type EnumTransactionStatusFilter<$PrismaModel = never> = {
@@ -10836,30 +9637,33 @@ export namespace Prisma {
     not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
   }
 
+  export type OrderNullableScalarRelationFilter = {
+    is?: OrderWhereInput | null
+    isNot?: OrderWhereInput | null
+  }
+
   export type TransactionCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
     status?: SortOrder
     amount?: SortOrder
     note?: SortOrder
+    orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
     amount?: SortOrder
   }
 
   export type TransactionMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
     status?: SortOrder
     amount?: SortOrder
     note?: SortOrder
+    orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10867,28 +9671,16 @@ export namespace Prisma {
   export type TransactionMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
     status?: SortOrder
     amount?: SortOrder
     note?: SortOrder
+    orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
     amount?: SortOrder
-  }
-
-  export type EnumTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.TransactionType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
-    _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
   }
 
   export type EnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -10901,72 +9693,49 @@ export namespace Prisma {
     _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type EnumLogLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogLevel | EnumLogLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogLevelFilter<$PrismaModel> | $Enums.LogLevel
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type NotificationCountOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    message?: SortOrder
-    read?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type NotificationAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type NotificationMaxOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    message?: SortOrder
-    read?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type NotificationMinOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    message?: SortOrder
-    read?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type NotificationSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type LogCountOrderByAggregateInput = {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrder
+    meta?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type LogAvgOrderByAggregateInput = {
-    id?: SortOrder
   }
 
   export type LogMaxOrderByAggregateInput = {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10975,20 +9744,50 @@ export namespace Prisma {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
-    context?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type LogSumOrderByAggregateInput = {
-    id?: SortOrder
+  export type EnumLogLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogLevel | EnumLogLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogLevelWithAggregatesFilter<$PrismaModel> | $Enums.LogLevel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLogLevelFilter<$PrismaModel>
+    _max?: NestedEnumLogLevelFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type ProductStockCreateNestedManyWithoutProductInput = {
-    create?: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput> | ProductStockCreateWithoutProductInput[] | ProductStockUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: ProductStockCreateOrConnectWithoutProductInput | ProductStockCreateOrConnectWithoutProductInput[]
-    createMany?: ProductStockCreateManyProductInputEnvelope
-    connect?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
+  export type ProductStockCreateNestedOneWithoutProductInput = {
+    create?: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput>
+    connectOrCreate?: ProductStockCreateOrConnectWithoutProductInput
+    connect?: ProductStockWhereUniqueInput
   }
 
   export type OrderItemCreateNestedManyWithoutProductInput = {
@@ -10998,11 +9797,10 @@ export namespace Prisma {
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
-  export type ProductStockUncheckedCreateNestedManyWithoutProductInput = {
-    create?: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput> | ProductStockCreateWithoutProductInput[] | ProductStockUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: ProductStockCreateOrConnectWithoutProductInput | ProductStockCreateOrConnectWithoutProductInput[]
-    createMany?: ProductStockCreateManyProductInputEnvelope
-    connect?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
+  export type ProductStockUncheckedCreateNestedOneWithoutProductInput = {
+    create?: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput>
+    connectOrCreate?: ProductStockCreateOrConnectWithoutProductInput
+    connect?: ProductStockWhereUniqueInput
   }
 
   export type OrderItemUncheckedCreateNestedManyWithoutProductInput = {
@@ -11036,26 +9834,22 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type EnumProductStatusFieldUpdateOperationsInput = {
-    set?: $Enums.ProductStatus
-  }
-
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
-  export type ProductStockUpdateManyWithoutProductNestedInput = {
-    create?: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput> | ProductStockCreateWithoutProductInput[] | ProductStockUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: ProductStockCreateOrConnectWithoutProductInput | ProductStockCreateOrConnectWithoutProductInput[]
-    upsert?: ProductStockUpsertWithWhereUniqueWithoutProductInput | ProductStockUpsertWithWhereUniqueWithoutProductInput[]
-    createMany?: ProductStockCreateManyProductInputEnvelope
-    set?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
-    disconnect?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
-    delete?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
-    connect?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
-    update?: ProductStockUpdateWithWhereUniqueWithoutProductInput | ProductStockUpdateWithWhereUniqueWithoutProductInput[]
-    updateMany?: ProductStockUpdateManyWithWhereWithoutProductInput | ProductStockUpdateManyWithWhereWithoutProductInput[]
-    deleteMany?: ProductStockScalarWhereInput | ProductStockScalarWhereInput[]
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type ProductStockUpdateOneWithoutProductNestedInput = {
+    create?: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput>
+    connectOrCreate?: ProductStockCreateOrConnectWithoutProductInput
+    upsert?: ProductStockUpsertWithoutProductInput
+    disconnect?: ProductStockWhereInput | boolean
+    delete?: ProductStockWhereInput | boolean
+    connect?: ProductStockWhereUniqueInput
+    update?: XOR<XOR<ProductStockUpdateToOneWithWhereWithoutProductInput, ProductStockUpdateWithoutProductInput>, ProductStockUncheckedUpdateWithoutProductInput>
   }
 
   export type OrderItemUpdateManyWithoutProductNestedInput = {
@@ -11072,18 +9866,14 @@ export namespace Prisma {
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
-  export type ProductStockUncheckedUpdateManyWithoutProductNestedInput = {
-    create?: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput> | ProductStockCreateWithoutProductInput[] | ProductStockUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: ProductStockCreateOrConnectWithoutProductInput | ProductStockCreateOrConnectWithoutProductInput[]
-    upsert?: ProductStockUpsertWithWhereUniqueWithoutProductInput | ProductStockUpsertWithWhereUniqueWithoutProductInput[]
-    createMany?: ProductStockCreateManyProductInputEnvelope
-    set?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
-    disconnect?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
-    delete?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
-    connect?: ProductStockWhereUniqueInput | ProductStockWhereUniqueInput[]
-    update?: ProductStockUpdateWithWhereUniqueWithoutProductInput | ProductStockUpdateWithWhereUniqueWithoutProductInput[]
-    updateMany?: ProductStockUpdateManyWithWhereWithoutProductInput | ProductStockUpdateManyWithWhereWithoutProductInput[]
-    deleteMany?: ProductStockScalarWhereInput | ProductStockScalarWhereInput[]
+  export type ProductStockUncheckedUpdateOneWithoutProductNestedInput = {
+    create?: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput>
+    connectOrCreate?: ProductStockCreateOrConnectWithoutProductInput
+    upsert?: ProductStockUpsertWithoutProductInput
+    disconnect?: ProductStockWhereInput | boolean
+    delete?: ProductStockWhereInput | boolean
+    connect?: ProductStockWhereUniqueInput
+    update?: XOR<XOR<ProductStockUpdateToOneWithWhereWithoutProductInput, ProductStockUpdateWithoutProductInput>, ProductStockUncheckedUpdateWithoutProductInput>
   }
 
   export type OrderItemUncheckedUpdateManyWithoutProductNestedInput = {
@@ -11121,11 +9911,25 @@ export namespace Prisma {
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
+  export type TransactionCreateNestedManyWithoutOrderInput = {
+    create?: XOR<TransactionCreateWithoutOrderInput, TransactionUncheckedCreateWithoutOrderInput> | TransactionCreateWithoutOrderInput[] | TransactionUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutOrderInput | TransactionCreateOrConnectWithoutOrderInput[]
+    createMany?: TransactionCreateManyOrderInputEnvelope
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
   export type OrderItemUncheckedCreateNestedManyWithoutOrderInput = {
     create?: XOR<OrderItemCreateWithoutOrderInput, OrderItemUncheckedCreateWithoutOrderInput> | OrderItemCreateWithoutOrderInput[] | OrderItemUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutOrderInput | OrderItemCreateOrConnectWithoutOrderInput[]
     createMany?: OrderItemCreateManyOrderInputEnvelope
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+  }
+
+  export type TransactionUncheckedCreateNestedManyWithoutOrderInput = {
+    create?: XOR<TransactionCreateWithoutOrderInput, TransactionUncheckedCreateWithoutOrderInput> | TransactionCreateWithoutOrderInput[] | TransactionUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutOrderInput | TransactionCreateOrConnectWithoutOrderInput[]
+    createMany?: TransactionCreateManyOrderInputEnvelope
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
   export type EnumOrderStatusFieldUpdateOperationsInput = {
@@ -11146,6 +9950,20 @@ export namespace Prisma {
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
+  export type TransactionUpdateManyWithoutOrderNestedInput = {
+    create?: XOR<TransactionCreateWithoutOrderInput, TransactionUncheckedCreateWithoutOrderInput> | TransactionCreateWithoutOrderInput[] | TransactionUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutOrderInput | TransactionCreateOrConnectWithoutOrderInput[]
+    upsert?: TransactionUpsertWithWhereUniqueWithoutOrderInput | TransactionUpsertWithWhereUniqueWithoutOrderInput[]
+    createMany?: TransactionCreateManyOrderInputEnvelope
+    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    update?: TransactionUpdateWithWhereUniqueWithoutOrderInput | TransactionUpdateWithWhereUniqueWithoutOrderInput[]
+    updateMany?: TransactionUpdateManyWithWhereWithoutOrderInput | TransactionUpdateManyWithWhereWithoutOrderInput[]
+    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
   export type OrderItemUncheckedUpdateManyWithoutOrderNestedInput = {
     create?: XOR<OrderItemCreateWithoutOrderInput, OrderItemUncheckedCreateWithoutOrderInput> | OrderItemCreateWithoutOrderInput[] | OrderItemUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutOrderInput | OrderItemCreateOrConnectWithoutOrderInput[]
@@ -11158,6 +9976,20 @@ export namespace Prisma {
     update?: OrderItemUpdateWithWhereUniqueWithoutOrderInput | OrderItemUpdateWithWhereUniqueWithoutOrderInput[]
     updateMany?: OrderItemUpdateManyWithWhereWithoutOrderInput | OrderItemUpdateManyWithWhereWithoutOrderInput[]
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutOrderNestedInput = {
+    create?: XOR<TransactionCreateWithoutOrderInput, TransactionUncheckedCreateWithoutOrderInput> | TransactionCreateWithoutOrderInput[] | TransactionUncheckedCreateWithoutOrderInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutOrderInput | TransactionCreateOrConnectWithoutOrderInput[]
+    upsert?: TransactionUpsertWithWhereUniqueWithoutOrderInput | TransactionUpsertWithWhereUniqueWithoutOrderInput[]
+    createMany?: TransactionCreateManyOrderInputEnvelope
+    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    update?: TransactionUpdateWithWhereUniqueWithoutOrderInput | TransactionUpdateWithWhereUniqueWithoutOrderInput[]
+    updateMany?: TransactionUpdateManyWithWhereWithoutOrderInput | TransactionUpdateManyWithWhereWithoutOrderInput[]
+    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
   export type OrderCreateNestedOneWithoutOrderItemsInput = {
@@ -11188,27 +10020,28 @@ export namespace Prisma {
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutOrderItemsInput, ProductUpdateWithoutOrderItemsInput>, ProductUncheckedUpdateWithoutOrderItemsInput>
   }
 
-  export type EnumTransactionTypeFieldUpdateOperationsInput = {
-    set?: $Enums.TransactionType
+  export type OrderCreateNestedOneWithoutTransactionsInput = {
+    create?: XOR<OrderCreateWithoutTransactionsInput, OrderUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutTransactionsInput
+    connect?: OrderWhereUniqueInput
   }
 
   export type EnumTransactionStatusFieldUpdateOperationsInput = {
     set?: $Enums.TransactionStatus
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type OrderUpdateOneWithoutTransactionsNestedInput = {
+    create?: XOR<OrderCreateWithoutTransactionsInput, OrderUncheckedCreateWithoutTransactionsInput>
+    connectOrCreate?: OrderCreateOrConnectWithoutTransactionsInput
+    upsert?: OrderUpsertWithoutTransactionsInput
+    disconnect?: OrderWhereInput | boolean
+    delete?: OrderWhereInput | boolean
+    connect?: OrderWhereUniqueInput
+    update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutTransactionsInput, OrderUpdateWithoutTransactionsInput>, OrderUncheckedUpdateWithoutTransactionsInput>
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type EnumLogLevelFieldUpdateOperationsInput = {
+    set?: $Enums.LogLevel
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11250,11 +10083,15 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumProductStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProductStatus | EnumProductStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProductStatusFilter<$PrismaModel> | $Enums.ProductStatus
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -11268,20 +10105,9 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -11345,14 +10171,20 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type NestedEnumProductStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProductStatus | EnumProductStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProductStatus[] | ListEnumProductStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProductStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProductStatus
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumProductStatusFilter<$PrismaModel>
-    _max?: NestedEnumProductStatusFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -11367,6 +10199,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumOrderStatusFilter<$PrismaModel = never> = {
@@ -11386,28 +10226,11 @@ export namespace Prisma {
     _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
-  export type NestedEnumTransactionTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
-  }
-
   export type NestedEnumTransactionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
-  }
-
-  export type NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.TransactionType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
-    _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -11420,30 +10243,60 @@ export namespace Prisma {
     _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type NestedEnumLogLevelFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogLevel | EnumLogLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogLevelFilter<$PrismaModel> | $Enums.LogLevel
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  export type NestedEnumLogLevelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogLevel | EnumLogLevelFieldRefInput<$PrismaModel>
+    in?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogLevel[] | ListEnumLogLevelFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogLevelWithAggregatesFilter<$PrismaModel> | $Enums.LogLevel
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    _min?: NestedEnumLogLevelFilter<$PrismaModel>
+    _max?: NestedEnumLogLevelFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type ProductStockCreateWithoutProductInput = {
+    id: string
     quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    alertAt?: number
   }
 
   export type ProductStockUncheckedCreateWithoutProductInput = {
-    id?: number
+    id: string
     quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    alertAt?: number
   }
 
   export type ProductStockCreateOrConnectWithoutProductInput = {
@@ -11451,12 +10304,8 @@ export namespace Prisma {
     create: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput>
   }
 
-  export type ProductStockCreateManyProductInputEnvelope = {
-    data: ProductStockCreateManyProductInput | ProductStockCreateManyProductInput[]
-    skipDuplicates?: boolean
-  }
-
   export type OrderItemCreateWithoutProductInput = {
+    id: string
     quantity: number
     price: number
     createdAt?: Date | string
@@ -11465,8 +10314,8 @@ export namespace Prisma {
   }
 
   export type OrderItemUncheckedCreateWithoutProductInput = {
-    id?: number
-    orderId: number
+    id: string
+    orderId: string
     quantity: number
     price: number
     createdAt?: Date | string
@@ -11483,31 +10332,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ProductStockUpsertWithWhereUniqueWithoutProductInput = {
-    where: ProductStockWhereUniqueInput
+  export type ProductStockUpsertWithoutProductInput = {
     update: XOR<ProductStockUpdateWithoutProductInput, ProductStockUncheckedUpdateWithoutProductInput>
     create: XOR<ProductStockCreateWithoutProductInput, ProductStockUncheckedCreateWithoutProductInput>
+    where?: ProductStockWhereInput
   }
 
-  export type ProductStockUpdateWithWhereUniqueWithoutProductInput = {
-    where: ProductStockWhereUniqueInput
+  export type ProductStockUpdateToOneWithWhereWithoutProductInput = {
+    where?: ProductStockWhereInput
     data: XOR<ProductStockUpdateWithoutProductInput, ProductStockUncheckedUpdateWithoutProductInput>
   }
 
-  export type ProductStockUpdateManyWithWhereWithoutProductInput = {
-    where: ProductStockScalarWhereInput
-    data: XOR<ProductStockUpdateManyMutationInput, ProductStockUncheckedUpdateManyWithoutProductInput>
+  export type ProductStockUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alertAt?: IntFieldUpdateOperationsInput | number
   }
 
-  export type ProductStockScalarWhereInput = {
-    AND?: ProductStockScalarWhereInput | ProductStockScalarWhereInput[]
-    OR?: ProductStockScalarWhereInput[]
-    NOT?: ProductStockScalarWhereInput | ProductStockScalarWhereInput[]
-    id?: IntFilter<"ProductStock"> | number
-    productId?: IntFilter<"ProductStock"> | number
-    quantity?: IntFilter<"ProductStock"> | number
-    createdAt?: DateTimeFilter<"ProductStock"> | Date | string
-    updatedAt?: DateTimeFilter<"ProductStock"> | Date | string
+  export type ProductStockUncheckedUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alertAt?: IntFieldUpdateOperationsInput | number
   }
 
   export type OrderItemUpsertWithWhereUniqueWithoutProductInput = {
@@ -11530,9 +10379,9 @@ export namespace Prisma {
     AND?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
     OR?: OrderItemScalarWhereInput[]
     NOT?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
-    id?: IntFilter<"OrderItem"> | number
-    orderId?: IntFilter<"OrderItem"> | number
-    productId?: IntFilter<"OrderItem"> | number
+    id?: StringFilter<"OrderItem"> | string
+    orderId?: StringFilter<"OrderItem"> | string
+    productId?: StringFilter<"OrderItem"> | string
     quantity?: IntFilter<"OrderItem"> | number
     price?: FloatFilter<"OrderItem"> | number
     createdAt?: DateTimeFilter<"OrderItem"> | Date | string
@@ -11540,25 +10389,26 @@ export namespace Prisma {
   }
 
   export type ProductCreateWithoutStocksInput = {
+    id: string
     name: string
     description?: string | null
     price: number
     createdBy: number
-    status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    trackStock?: boolean
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutStocksInput = {
-    id?: number
+    id: string
     name: string
     description?: string | null
     price: number
     createdBy: number
-    status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    trackStock?: boolean
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
   }
 
@@ -11579,29 +10429,31 @@ export namespace Prisma {
   }
 
   export type ProductUpdateWithoutStocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: IntFieldUpdateOperationsInput | number
-    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackStock?: BoolFieldUpdateOperationsInput | boolean
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutStocksInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: IntFieldUpdateOperationsInput | number
-    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trackStock?: BoolFieldUpdateOperationsInput | boolean
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type OrderItemCreateWithoutOrderInput = {
+    id: string
     quantity: number
     price: number
     createdAt?: Date | string
@@ -11610,8 +10462,8 @@ export namespace Prisma {
   }
 
   export type OrderItemUncheckedCreateWithoutOrderInput = {
-    id?: number
-    productId: number
+    id: string
+    productId: string
     quantity: number
     price: number
     createdAt?: Date | string
@@ -11625,6 +10477,36 @@ export namespace Prisma {
 
   export type OrderItemCreateManyOrderInputEnvelope = {
     data: OrderItemCreateManyOrderInput | OrderItemCreateManyOrderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TransactionCreateWithoutOrderInput = {
+    id: string
+    userId?: string | null
+    status: $Enums.TransactionStatus
+    amount: number
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TransactionUncheckedCreateWithoutOrderInput = {
+    id: string
+    userId?: string | null
+    status: $Enums.TransactionStatus
+    amount: number
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TransactionCreateOrConnectWithoutOrderInput = {
+    where: TransactionWhereUniqueInput
+    create: XOR<TransactionCreateWithoutOrderInput, TransactionUncheckedCreateWithoutOrderInput>
+  }
+
+  export type TransactionCreateManyOrderInputEnvelope = {
+    data: TransactionCreateManyOrderInput | TransactionCreateManyOrderInput[]
     skipDuplicates?: boolean
   }
 
@@ -11644,21 +10526,54 @@ export namespace Prisma {
     data: XOR<OrderItemUpdateManyMutationInput, OrderItemUncheckedUpdateManyWithoutOrderInput>
   }
 
+  export type TransactionUpsertWithWhereUniqueWithoutOrderInput = {
+    where: TransactionWhereUniqueInput
+    update: XOR<TransactionUpdateWithoutOrderInput, TransactionUncheckedUpdateWithoutOrderInput>
+    create: XOR<TransactionCreateWithoutOrderInput, TransactionUncheckedCreateWithoutOrderInput>
+  }
+
+  export type TransactionUpdateWithWhereUniqueWithoutOrderInput = {
+    where: TransactionWhereUniqueInput
+    data: XOR<TransactionUpdateWithoutOrderInput, TransactionUncheckedUpdateWithoutOrderInput>
+  }
+
+  export type TransactionUpdateManyWithWhereWithoutOrderInput = {
+    where: TransactionScalarWhereInput
+    data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutOrderInput>
+  }
+
+  export type TransactionScalarWhereInput = {
+    AND?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+    OR?: TransactionScalarWhereInput[]
+    NOT?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+    id?: StringFilter<"Transaction"> | string
+    userId?: StringNullableFilter<"Transaction"> | string | null
+    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    amount?: FloatFilter<"Transaction"> | number
+    note?: StringNullableFilter<"Transaction"> | string | null
+    orderId?: StringNullableFilter<"Transaction"> | string | null
+    createdAt?: DateTimeFilter<"Transaction"> | Date | string
+    updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+  }
+
   export type OrderCreateWithoutOrderItemsInput = {
-    userId: number
+    id: string
+    userId?: string | null
     status?: $Enums.OrderStatus
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    transactions?: TransactionCreateNestedManyWithoutOrderInput
   }
 
   export type OrderUncheckedCreateWithoutOrderItemsInput = {
-    id?: number
-    userId: number
+    id: string
+    userId?: string | null
     status?: $Enums.OrderStatus
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutOrderInput
   }
 
   export type OrderCreateOrConnectWithoutOrderItemsInput = {
@@ -11667,26 +10582,27 @@ export namespace Prisma {
   }
 
   export type ProductCreateWithoutOrderItemsInput = {
+    id: string
     name: string
     description?: string | null
     price: number
     createdBy: number
-    status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    stocks?: ProductStockCreateNestedManyWithoutProductInput
+    trackStock?: boolean
+    stocks?: ProductStockCreateNestedOneWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutOrderItemsInput = {
-    id?: number
+    id: string
     name: string
     description?: string | null
     price: number
     createdBy: number
-    status?: $Enums.ProductStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    stocks?: ProductStockUncheckedCreateNestedManyWithoutProductInput
+    trackStock?: boolean
+    stocks?: ProductStockUncheckedCreateNestedOneWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutOrderItemsInput = {
@@ -11706,20 +10622,23 @@ export namespace Prisma {
   }
 
   export type OrderUpdateWithoutOrderItemsInput = {
-    userId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutOrderItemsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type ProductUpsertWithoutOrderItemsInput = {
@@ -11734,65 +10653,96 @@ export namespace Prisma {
   }
 
   export type ProductUpdateWithoutOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: IntFieldUpdateOperationsInput | number
-    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stocks?: ProductStockUpdateManyWithoutProductNestedInput
+    trackStock?: BoolFieldUpdateOperationsInput | boolean
+    stocks?: ProductStockUpdateOneWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutOrderItemsInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: FloatFieldUpdateOperationsInput | number
     createdBy?: IntFieldUpdateOperationsInput | number
-    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    stocks?: ProductStockUncheckedUpdateManyWithoutProductNestedInput
+    trackStock?: BoolFieldUpdateOperationsInput | boolean
+    stocks?: ProductStockUncheckedUpdateOneWithoutProductNestedInput
   }
 
-  export type ProductStockCreateManyProductInput = {
-    id?: number
-    quantity: number
+  export type OrderCreateWithoutTransactionsInput = {
+    id: string
+    userId?: string | null
+    status?: $Enums.OrderStatus
+    total: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    orderItems?: OrderItemCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderUncheckedCreateWithoutTransactionsInput = {
+    id: string
+    userId?: string | null
+    status?: $Enums.OrderStatus
+    total: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderCreateOrConnectWithoutTransactionsInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutTransactionsInput, OrderUncheckedCreateWithoutTransactionsInput>
+  }
+
+  export type OrderUpsertWithoutTransactionsInput = {
+    update: XOR<OrderUpdateWithoutTransactionsInput, OrderUncheckedUpdateWithoutTransactionsInput>
+    create: XOR<OrderCreateWithoutTransactionsInput, OrderUncheckedCreateWithoutTransactionsInput>
+    where?: OrderWhereInput
+  }
+
+  export type OrderUpdateToOneWithWhereWithoutTransactionsInput = {
+    where?: OrderWhereInput
+    data: XOR<OrderUpdateWithoutTransactionsInput, OrderUncheckedUpdateWithoutTransactionsInput>
+  }
+
+  export type OrderUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    total?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderItems?: OrderItemUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutTransactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    total?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderItems?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
   export type OrderItemCreateManyProductInput = {
-    id?: number
-    orderId: number
+    id: string
+    orderId: string
     quantity: number
     price: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ProductStockUpdateWithoutProductInput = {
-    quantity?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProductStockUncheckedUpdateWithoutProductInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    quantity?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProductStockUncheckedUpdateManyWithoutProductInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    quantity?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type OrderItemUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11801,8 +10751,8 @@ export namespace Prisma {
   }
 
   export type OrderItemUncheckedUpdateWithoutProductInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    orderId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11810,8 +10760,8 @@ export namespace Prisma {
   }
 
   export type OrderItemUncheckedUpdateManyWithoutProductInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    orderId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11819,15 +10769,26 @@ export namespace Prisma {
   }
 
   export type OrderItemCreateManyOrderInput = {
-    id?: number
-    productId: number
+    id: string
+    productId: string
     quantity: number
     price: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
+  export type TransactionCreateManyOrderInput = {
+    id: string
+    userId?: string | null
+    status: $Enums.TransactionStatus
+    amount: number
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type OrderItemUpdateWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11836,8 +10797,8 @@ export namespace Prisma {
   }
 
   export type OrderItemUncheckedUpdateWithoutOrderInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    productId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11845,10 +10806,40 @@ export namespace Prisma {
   }
 
   export type OrderItemUncheckedUpdateManyWithoutOrderInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    productId?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransactionUpdateWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransactionUncheckedUpdateWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

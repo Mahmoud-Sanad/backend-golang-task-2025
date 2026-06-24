@@ -7,7 +7,7 @@ const WebSocket = require("ws");
 const config = require("./src/config");
 const { disconnect } = require("./src/prisma");
 const WebSocketService = require("./src/websocket/websocketService");
-const { createRoutes } = require("./src/routes");
+const { createRoutes } = require("./src/router");
 
 const {
   registerServer,
@@ -21,7 +21,14 @@ const httpServer = http.createServer(app);
 const wss = new WebSocket.Server({ server: httpServer });
 
 const wsManager = new WebSocketService();
-app.use("/", createRoutes(wsManager));
+// Mount all API routes under /api/v1
+app.use("/api/v1", createRoutes(wsManager));
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ success: false, error: err.message || "Internal server error" });
+});
+
 wsManager.attachWebSocketServer(wss);
 
 
@@ -52,7 +59,6 @@ async function start() {
     console.log("WebSocket service started");
   });
 
-  setInterval(registerServer, config.serverRegisterIntervalMs);
   setInterval(() => wsManager.loadPeers(), config.peerReloadIntervalMs);
 }
 
