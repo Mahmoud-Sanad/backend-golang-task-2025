@@ -9,7 +9,8 @@ const tests = [
   'tests/products_fail.js',
   'tests/orders_success.js',
   'tests/admin_lowstock_success.js',
-  'tests/all_routes.js'
+  'tests/all_routes.js',
+  'tests/full_routes.js'
 ];
 
 function waitForPort(port, host = '127.0.0.1', timeout = 15000) {

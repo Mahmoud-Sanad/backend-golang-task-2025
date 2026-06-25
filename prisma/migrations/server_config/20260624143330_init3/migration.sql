@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Server" ALTER COLUMN "status" SET DEFAULT 'ONLINE',
-ALTER COLUMN "serverType" SET DEFAULT 'STANDARD';

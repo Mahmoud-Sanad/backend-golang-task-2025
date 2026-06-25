@@ -20,7 +20,7 @@ function createRoutes(wsManager) {
   router.use(isLoggedIn);
   router.use("/server", serverResourcesRoutes());
   
-  router.use("/payments",checkServer("PAYMENT"), paymentsRoutes());
+  router.use("/payments",checkServer("PAYMENT"), paymentsRoutes(wsManager));
   router.use(canAccess("ADMIN"));
   router.use('/admin', adminRoutes());
   router.use("/servers", serverRoutes());

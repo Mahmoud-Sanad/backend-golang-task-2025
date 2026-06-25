@@ -20,7 +20,12 @@ const {
   listOrders,
   getOrder,
   updateOrder,
-  deleteOrder
+  deleteOrder,
+  getMyOrders,
+  getOrderStatus,
+  updateOrderStatus,
+  cancelOrder,
+  dailyReport
 } = require("../handlers/orderHandler");
 const {
   createTransaction,
@@ -34,7 +39,7 @@ const { createNotificationHandlers } = require("../handlers/notificationHandler"
 const { createLogHandlers } = require("../handlers/logHandler");
 const { canAccess } = require("../middlewares/authMiddleware");
 
-function paymentsRoutes() {
+function paymentsRoutes(wsManager) {
   const router = express.Router();
   const notifications = createNotificationHandlers(standard);
   const logs = createLogHandlers(payment);
@@ -132,14 +137,47 @@ function paymentsRoutes() {
 //     })
 //   );
 
-  router.post(
+ router.post(
     "/orders",
-    catchAsync(createOrder)
+    catchAsync((req, res) => {
+      return createOrder(req, res, wsManager);
+    })
+  );
+
+  router.get(
+    "/orders/my",
+    catchAsync(getMyOrders)
+  );
+
+  router.get(
+    "/orders/report/daily",
+    canAccess("ADMIN"),
+    catchAsync(dailyReport)
   );
 
   router.get(
     "/orders",
     catchAsync(listOrders)
+  );
+
+  router.get(
+    "/orders/:id/status",
+    catchAsync(getOrderStatus)
+  );
+
+  router.put(
+    "/orders/:id/status",
+    canAccess("ADMIN"),
+    catchAsync((req, res) => {
+      return updateOrderStatus(req, res, wsManager);
+    })
+  );
+
+  router.post(
+    "/orders/:id/cancel",
+    catchAsync((req, res) => {
+      return cancelOrder(req, res, wsManager);
+    })
   );
 
   router.get(

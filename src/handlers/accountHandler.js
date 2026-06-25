@@ -3,35 +3,35 @@ const config = require("../config");
 const { getServerConfigByServerId, saveServerDeviceId } = require("../services/serverService");
 const { generateId } = require("../utils/idGenerator");
 const bcrypt = require("bcryptjs");
-const { generateAccessToken } = require("../utils/tokenService");
+const { generateAccessToken, verifyAccessToken } = require("../utils/tokenService");
 const { sendSuccess } = require("../utils/routeUtils");
 
-async function loginAccount(req, res) {
+async function loginAccount(req, res,next) {
   const { email, password } = req.body || {};
   if (!email || !password) {
     throw new Error("Missing email or password");
   }
   const account = await prisma.account.findUnique({ where: { email } });
   if (!account) {
-    throw new Error("Invalid email or password");
+   return next(new Error("Invalid email or password"));
   }
   const isMatch = await bcrypt.compare(password, account.password);
   if (!isMatch) {
-    throw new Error("Invalid email or password");
+    return next(new Error("Invalid email or password"));
   }
   const token = generateAccessToken({ userId: account.id, serverId: config.serverId, role: account.role });
   account.token = token;
   return sendSuccess(res, account);
 }
 
-async function registerAccount(req, res) {
+async function registerAccount(req, res,next) {
   const { email, password, name } = req.body || {};
   if (!email || !password) {
-    throw new Error("Missing email or password");
+     return next(new Error("Missing email or password"));
   }
   const existingAccount = await prisma.account.findUnique({ where: { email } });
   if (existingAccount) {
-    throw new Error("Account with this email already exists");
+    return next(new Error("Email already exists"));
   }
   const hashedPassword = await bcrypt.hash(password, 10);
   const id = generateId(config.serverId);
@@ -61,27 +61,65 @@ async function handleAuth(socket, message, ws) {
 
 
 async function authenticateUser(socket, message, ws) {
-  const userId = message.userId || message.payload?.userId;
+  const token = message.token;
 
-  if (!userId) {
+  if (!token) {
     ws.sendRaw(socket, {
       method: "AUTH_ERROR",
       from: config.serverId,
-      error: "User AUTH requires userId"
+      error: "User AUTH requires token"
     });
     return;
   }
 
-  ws.saveUserSocket(String(userId), socket);
+  let decoded;
+
+  try {
+    decoded = verifyAccessToken(token);
+  } catch (error) {
+    ws.sendRaw(socket, {
+      method: "AUTH_ERROR",
+      from: config.serverId,
+      error: "Invalid token"
+    });
+
+    socket.close();
+    return;
+  }
+
+  if (!decoded?.userId) {
+    ws.sendRaw(socket, {
+      method: "AUTH_ERROR",
+      from: config.serverId,
+      error: "Invalid token"
+    });
+
+    socket.close();
+    return;
+  }
+
+  const userId = String(decoded.userId);
+  const role = String(decoded.role || "").toUpperCase();
+
+  if (role === "ADMIN") {
+  ws.saveAdminSocket(userId, socket);
+} else {
+  ws.saveUserSocket(userId, socket);
+}
 
   ws.sendRaw(socket, {
     method: "AUTH_OK",
     from: config.serverId,
     peer: false,
-    userId: String(userId)
+    userId,
+    role
   });
 
-  console.log(`✓ User authenticated: ${userId}`);
+  console.log(
+    role === "ADMIN"
+      ? `✓ Admin authenticated: ${userId}`
+      : `✓ User authenticated: ${userId}`
+  );
 }
 
 

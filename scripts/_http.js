@@ -2,7 +2,7 @@ const http = require('http');
 const https = require('https');
 const { URL } = require('url');
 
-function request(options = {}) {
+function request(options = {}, redirectCount = 0) {
   return new Promise((resolve, reject) => {
     try {
       const url = new URL(options.url || `http://localhost:${process.env.PORT||3000}${options.path||'/'}`);
@@ -21,6 +21,13 @@ function request(options = {}) {
         res.on('data', (chunk) => (data += chunk));
         res.on('end', () => {
           const contentType = res.headers['content-type'] || '';
+          const location = res.headers.location;
+          if ([301, 302, 307, 308].includes(res.statusCode) && location && redirectCount < 5) {
+            const redirectUrl = new URL(location, url).toString();
+            resolve(request(Object.assign({}, options, { url: redirectUrl }), redirectCount + 1));
+            return;
+          }
+
           let body = data;
           if (contentType.includes('application/json')) {
             try { body = JSON.parse(data); } catch (e) { /* ignore */ }

@@ -32,7 +32,7 @@ model Product {
     name        String
     description String?
     price       Float
-    createdBy   Int
+    createdBy   String?
     createdAt   DateTime       @default(now())
     updatedAt   DateTime       @updatedAt
     trackStock  Boolean        @default(false)

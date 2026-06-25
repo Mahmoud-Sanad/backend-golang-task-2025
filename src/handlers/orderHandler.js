@@ -8,73 +8,140 @@ const { generateId } = require("../utils/idGenerator");
  */
 const { sendSuccess } = require("../utils/routeUtils");
 
-async function createOrder(req, res) {
+async function createOrder(req, res, wsManager) {
   const data = req.body || {};
   const items = Array.isArray(data.items) ? data.items : [];
 
-  // fetch product details for price lookup
-  const productIds = items.map((it) => it.productId);
-  const products = productIds.length
-    ? await prisma.product.findMany({ where: { id: { in: productIds } } })
-    : [];
+  if (items.length === 0) {
+    throw new Error("Order must contain at least one item");
+  }
 
-  const productsById = new Map(products.map((p) => [p.id, p]));
+  const productIds = [...new Set(
+    items.map((item) => String(item.productId))
+  )];
 
-  // validate all products exist
-  for (const it of items) {
-    if (!productsById.has(it.productId)) {
-      throw new Error(`Product not found: ${it.productId}`);
+  const products = await prisma.product.findMany({
+    where: {
+      id: {
+        in: productIds
+      }
     }
-    if (!Number.isInteger(it.quantity) || it.quantity <= 0) {
-      throw new Error(`Invalid quantity for product ${it.productId}`);
+  });
+
+  const productsById = new Map(
+    products.map((product) => [
+      String(product.id),
+      product
+    ])
+  );
+
+  for (const item of items) {
+    const productId = String(item.productId);
+
+    if (!productsById.has(productId)) {
+      throw new Error(`Product not found: ${productId}`);
+    }
+
+    if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+      throw new Error(
+        `Invalid quantity for product ${productId}`
+      );
     }
   }
 
-  // compute total from product prices
-  const total = items.reduce((sum, it) => {
-    const p = productsById.get(it.productId);
-    return sum + (Number(p.price) || 0) * Number(it.quantity);
+  const total = items.reduce((sum, item) => {
+    const product = productsById.get(
+      String(item.productId)
+    );
+
+    return (
+      sum +
+      Number(product.price) * item.quantity
+    );
   }, 0);
 
-  const orderId = data.id || generateId(config.serverId);
+  const orderId =
+    data.id || generateId(config.serverId);
 
-  // run transaction: create order then all orderItems
-  const result = await prisma.$transaction(async (tx) => {
-    const order = await tx.order.create({
-      data: {
-        id: orderId,
-        userId: data.userId || null,
-        total,
-      }
-    });
+  const userId =
+    req.auth?.userId || data.userId || null;
 
-    const createdItems = [];
-    for (const it of items) {
-      const prod = productsById.get(it.productId);
-      const itemId = generateId(config.serverId);
-      // single stock entry per product (find one)
-      if (prod.trackStock){
-        const stockRow = await tx.productStock.findFirst({ where: { productId: it.productId } });
-        if (!stockRow || Number(stockRow.quantity) < Number(it.quantity)) {
-          throw new Error(`Insufficient stock for product ${it.productId}`);
-        }
-        const newQty = Number(stockRow.quantity) - Number(it.quantity);
-        await tx.productStock.update({ where: { id: stockRow.id }, data: { quantity: newQty } });
-      }
-      const created = await tx.orderItem.create({
+  const result = await prisma.$transaction(
+    async (tx) => {
+      const order = await tx.order.create({
         data: {
-          id: itemId,
-          orderId: order.id,
-          productId: it.productId,
-          quantity: it.quantity,
-          price: prod.price
+          id: orderId,
+          userId,
+          total
         }
       });
-      createdItems.push(created);
-    }
 
-    return { order, items: createdItems };
-  });
+      const createdItems = [];
+
+      for (const item of items) {
+        const productId = String(item.productId);
+        const product = productsById.get(productId);
+
+        if (product.trackStock) {
+          const stockUpdate =
+            await tx.productStock.updateMany({
+              where: {
+                productId,
+                quantity: {
+                  gte: item.quantity
+                }
+              },
+              data: {
+                quantity: {
+                  decrement: item.quantity
+                }
+              }
+            });
+
+          if (stockUpdate.count !== 1) {
+            throw new Error(
+              `Insufficient stock for product ${productId}`
+            );
+          }
+        }
+
+        const createdItem =
+          await tx.orderItem.create({
+            data: {
+              id: generateId(config.serverId),
+              orderId: order.id,
+              productId,
+              quantity: item.quantity,
+              price: product.price
+            }
+          });
+
+        createdItems.push(createdItem);
+      }
+
+      return {
+        order,
+        items: createdItems
+      };
+    }
+  );
+
+  /*
+   * Publish only after the transaction commits successfully.
+   */
+  if (wsManager) {
+    wsManager.publishAdminNotification(
+      "ORDER_CREATED",
+      {
+        orderId: result.order.id,
+        userId: result.order.userId,
+        total: result.order.total,
+        status: result.order.status,
+        itemsCount: result.items.length,
+        createdAt: result.order.createdAt
+      }
+    );
+  }
 
   return sendSuccess(res, result);
 }
@@ -109,7 +176,7 @@ async function deleteOrder(req, res) {
   return sendSuccess(res, result);
 }
 
-async function cancelOrder(req, res) {
+async function cancelOrder(req, res,wsManager) {
   const id = req.params.id;
   const auth = req.auth || {};
 
@@ -122,7 +189,7 @@ async function cancelOrder(req, res) {
     const items = await tx.orderItem.findMany({ where: { orderId: order.id } });
 
     // update order status
-    await tx.order.update({ where: { id: order.id }, data: { status: 'CANCELED' } });
+    await tx.order.update({ where: { id: order.id }, data: { status: 'CANCELLED' } });
 
     // restock: update single productStock row quantity, or create if missing
     for (const it of items) {
@@ -138,6 +205,17 @@ async function cancelOrder(req, res) {
     return { success: true };
   });
 
+  if (wsManager) {
+    wsManager.publishAdminNotification(
+      "ORDER_CANCELED",
+      {
+        orderId: id,
+        userId: auth.userId,
+        canceledAt: new Date().toISOString()
+      }
+    );
+  }
+
   return sendSuccess(res, result);
 }
 
@@ -148,11 +226,31 @@ async function getOrderStatus(req, res) {
   return sendSuccess(res, { id: order.id, status: order.status });
 }
 
-async function updateOrderStatus(req, res) {
+async function updateOrderStatus(req, res, wsManager) {
   const id = req.params.id;
   const { status } = req.body || {};
   if (!status) throw new Error('Missing status');
-  const order = await prisma.order.update({ where: { id: String(id) }, data: { status } });
+  const order = await prisma.order.update({ where: { id: String(id) }, data: { status } , include: { orderItems: true } });
+  const serverId = order.userId.split("_")[0];
+  
+  if (wsManager) {
+    try {
+      wsManager.sendNotificationToRemoteUser(
+        serverId,
+        order.userId,
+        "ORDER_STATUS_UPDATED",
+        {
+          orderId: order.id,
+          total: order.total,
+          status: order.status,
+          itemsCount: order.orderItems.length,
+          createdAt: order.createdAt
+        }
+      );
+    } catch (error) {
+      console.log(`Warning: Could not notify remote user ${order.userId}: ${error.message}`);
+    }
+  }
   return sendSuccess(res, order);
 }
 

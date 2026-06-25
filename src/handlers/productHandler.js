@@ -6,7 +6,8 @@ const { sendSuccess } = require("../utils/routeUtils");
 async function createProduct(req, res) {
   const data = req.body || {};
   const id = data.id || generateId(config.serverId);
-  const result = await prisma.product.create({ data: { ...data, id } });
+  const createdBy = req.auth?.userId || null;
+  const result = await prisma.product.create({ data: { ...data, id,createdBy } });
   return sendSuccess(res, result);
 }
 
@@ -39,6 +40,9 @@ async function updateProduct(req, res) {
 
 async function deleteProduct(req, res) {
   const id = req.params.id;
+  // Delete in order: orderItems → productStocks → product
+  await prisma.orderItem.deleteMany({ where: { productId: String(id) } });
+  await prisma.productStock.deleteMany({ where: { productId: String(id) } });
   const result = await prisma.product.delete({ where: { id: String(id) } });
   return sendSuccess(res, result);
 }

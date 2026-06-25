@@ -2,7 +2,9 @@ require("dotenv/config");
 
 const express = require("express");
 const http = require("http");
+const path = require("path");
 const WebSocket = require("ws");
+const swaggerUiDist = require("swagger-ui-dist");
 
 const config = require("./src/config");
 const { disconnect } = require("./src/prisma");
@@ -21,8 +23,45 @@ const httpServer = http.createServer(app);
 const wss = new WebSocket.Server({ server: httpServer });
 
 const wsManager = new WebSocketService();
+app.get("/api/v1/openapi.json", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "openapi.json"));
+});
+
+app.use("/api/v1/docs/static", express.static(swaggerUiDist.getAbsoluteFSPath()));
+
+app.get("/api/v1/docs", (req, res) => {
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="/api/v1/docs/static/swagger-ui.css" />
+  </head>
+  <body>
+    <div id="swagger-ui"></div>
+    <script src="/api/v1/docs/static/swagger-ui-bundle.js"></script>
+    <script>
+      window.onload = function () {
+        SwaggerUIBundle({
+          url: '/api/v1/openapi.json',
+          dom_id: '#swagger-ui',
+          presets: [SwaggerUIBundle.presets.apis],
+          layout: 'BaseLayout',
+          deepLinking: true,
+          tryItOutEnabled: true,
+          validatorUrl: null
+        });
+      };
+    </script>
+  </body>
+</html>`);
+});
+
 // Mount all API routes under /api/v1
 app.use("/api/v1", createRoutes(wsManager));
+
+
 
 app.use((err, req, res, next) => {
   console.error(err);
